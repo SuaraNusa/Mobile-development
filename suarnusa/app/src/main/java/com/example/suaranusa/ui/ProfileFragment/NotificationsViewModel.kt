@@ -1,4 +1,4 @@
-package com.example.suaranusa.ui.notifications
+package com.example.suaranusa.ui.ProfileFragment
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
