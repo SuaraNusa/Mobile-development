@@ -16,5 +16,7 @@
 
         <!-- Background color -->
         <item name="android:windowBackground">@color/biruterang</item>
+        
+        <item name="android:fontFamily">@font/poppins_regular</item>
     </style>
 </resources>
