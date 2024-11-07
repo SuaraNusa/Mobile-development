@@ -39,13 +39,22 @@
             />
 
         <TextView
+            android:id="@+id/slide_two_word"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
-
             app:layout_constraintStart_toStartOf="@+id/person_sing"
             app:layout_constraintEnd_toEndOf="@+id/person_sing"
             app:layout_constraintBottom_toBottomOf="@+id/person_sing"
             android:text="@string/slide_word"
+            />
+        <Button
+            android:id="@+id/get_started"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Get Started"
+            app:layout_constraintTop_toBottomOf="@+id/slide_two_word"
+            app:layout_constraintStart_toStartOf="@+id/slide_two_word"
+            app:layout_constraintEnd_toEndOf="@+id/slide_two_word"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

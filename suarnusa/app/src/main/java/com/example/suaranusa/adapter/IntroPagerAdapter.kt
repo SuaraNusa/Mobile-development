@@ -10,6 +10,8 @@ class IntroPagerAdapter(FragmentActivity: FragmentActivity): FragmentStateAdapte
     override fun getItemCount(): Int  = 2
 
     override fun createFragment(position: Int): Fragment {
+        //binding button to change page
+
         return when(position){
             0->FirstPage()
             else -> SecondPage()
