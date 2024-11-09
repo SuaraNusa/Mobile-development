@@ -17,7 +17,7 @@ class FirstPage : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        return inflater.inflate(R.layout.first_page, container, false)
+        return inflater.inflate(R.layout.intro_first_page, container, false)
     }
 
 

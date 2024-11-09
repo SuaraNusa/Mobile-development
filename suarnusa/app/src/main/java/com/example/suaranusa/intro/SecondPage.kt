@@ -11,18 +11,17 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.suaranusa.MainActivity
 import com.example.suaranusa.R
-import com.example.suaranusa.databinding.SecondPageBinding
+import com.example.suaranusa.databinding.IntroSecondPageBinding
 
 class SecondPage : Fragment() {
 
-    private lateinit var binding: SecondPageBinding
-
+    private lateinit var binding: IntroSecondPageBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        binding = SecondPageBinding.inflate(inflater, container, false)
+        binding = IntroSecondPageBinding.inflate(inflater, container, false)
 
         binding.getStarted.setOnClickListener {
             //close the fragment
