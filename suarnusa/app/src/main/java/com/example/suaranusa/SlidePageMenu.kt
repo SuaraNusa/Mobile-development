@@ -17,6 +17,8 @@ class SlidePageMenu : AppCompatActivity() {
         binding = ActivitySlideBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar?.hide()
+
         binding.buttonNext.setOnClickListener {
             val current = binding.slideVP.currentItem
             if (current < 1) {
@@ -27,6 +29,7 @@ class SlidePageMenu : AppCompatActivity() {
        binding.slideVP.registerOnPageChangeCallback(object :ViewPager2.OnPageChangeCallback(){
            override fun onPageSelected(position: Int) {
                super.onPageSelected(position)
+
                 if (position == 1){
                      binding.buttonNext.visibility = View.GONE
                 }else{

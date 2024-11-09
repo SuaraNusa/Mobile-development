@@ -18,35 +18,37 @@
             android:id="@+id/star1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="48dp"
             android:src="@drawable/ic_star"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/welcome_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Welcome \n to \n Suara Nusa!"
-            android:textSize="40sp"
-            android:gravity="center_vertical"
-            android:textStyle="bold"
-            android:fontFamily="@font/poppins_regular"
-            android:textColor="@color/biru"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginBottom="100dp"
-            />
+            android:fontFamily="@font/poppins_regular"
+            android:gravity="center_vertical"
+            android:text="Welcome \n to \n Suara Nusa!"
+            android:textColor="@color/biru"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/star1"
+            app:layout_constraintVertical_bias="0.227" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="4dp"
             android:src="@drawable/ic_star"
-            app:layout_constraintTop_toBottomOf="@+id/welcome_view"
             app:layout_constraintEnd_toEndOf="parent"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/welcome_view" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
