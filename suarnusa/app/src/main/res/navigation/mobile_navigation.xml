@@ -22,4 +22,11 @@
         android:name="com.example.suaranusa.ui.ProfileFragment.ProfileFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+
+    <fragment
+        android:id="@+id/navigation_blank"
+        android:name="com.example.suaranusa.ui.blank.BlankFragment"
+        android:label="List"
+        tools:layout="@layout/fragment_blank" />
+
 </navigation>
