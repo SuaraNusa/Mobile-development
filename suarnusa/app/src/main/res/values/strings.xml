@@ -11,4 +11,5 @@
     <string name="sign_in">Sign in</string>
     <string name="ini_login">ini login</string>
     <string name="ini_register">ini register</string>
+    <string name="list">List</string>
 </resources>

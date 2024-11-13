@@ -28,15 +28,15 @@
             />
 
         <ImageView
-            android:layout_marginTop="100dp"
             android:id="@+id/person_sing"
             android:layout_width="300dp"
             android:layout_height="300dp"
+            android:layout_marginTop="212dp"
             android:src="@drawable/welcome_picture"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/slide_two_word"
