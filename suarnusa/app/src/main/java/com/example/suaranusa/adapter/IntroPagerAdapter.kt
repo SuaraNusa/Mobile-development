@@ -3,8 +3,8 @@ package com.example.suaranusa.adapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.suaranusa.intro.FirstPage
-import com.example.suaranusa.intro.SecondPage
+import com.example.suaranusa.ui.intro.FirstPage
+import com.example.suaranusa.ui.intro.SecondPage
 
 class IntroPagerAdapter(FragmentActivity: FragmentActivity): FragmentStateAdapter(FragmentActivity) {
     override fun getItemCount(): Int  = 2
@@ -13,7 +13,7 @@ class IntroPagerAdapter(FragmentActivity: FragmentActivity): FragmentStateAdapte
         //binding button to change page
 
         return when(position){
-            0->FirstPage()
+            0-> FirstPage()
             else -> SecondPage()
         }
     }
