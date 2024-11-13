@@ -17,10 +17,10 @@ class auth_adapter(
     }
 
     override fun createFragment(position: Int): Fragment {
-        return if(position == 0){
-            RegisterFragment()
-        }else{
-            LoginFragment()
+        return when(position){
+            0 -> RegisterFragment()
+            1 -> LoginFragment()
+            else -> RegisterFragment()
         }
     }
 }
