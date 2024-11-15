@@ -16,6 +16,7 @@
             android:name=".TabLayout"
             android:exported="false"
             android:theme="@style/Theme.SuaraNusa.noActionBar"
+            android:windowSoftInputMode="adjustPan"
             />
         <activity
             android:name=".MainActivity"

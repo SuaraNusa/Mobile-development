@@ -22,31 +22,34 @@
 
 
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:tabIndicatorColor="@null"
-        app:tabIndicator="@drawable/tab_auth_indicator"
-        app:tabIndicatorHeight="50dp"
-        app:tabSelectedTextColor="@color/white"
-        android:layout_margin="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logo"
-        app:tabMode="fixed"
-        android:background="@drawable/tab_auth_background"
-         />
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabIndicatorColor="@null"
+            app:tabIndicator="@drawable/tab_auth_indicator"
+            app:tabIndicatorHeight="50dp"
+            app:tabSelectedTextColor="@color/white"
+            app:tabTextColor="@color/black"
+            android:layout_margin="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/logo"
+            app:tabMode="fixed"
+            android:background="@drawable/tab_auth_background"
+            />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             app:layout_constraintStart_toStartOf="@+id/tabLayout"
             app:layout_constraintEnd_toEndOf="@+id/tabLayout"
             app:layout_constraintTop_toBottomOf="@+id/tabLayout"
-           android:layout_margin="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_margin="16dp"
             />
+
 
 
 

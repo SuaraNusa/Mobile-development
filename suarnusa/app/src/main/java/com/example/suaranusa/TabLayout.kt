@@ -17,7 +17,6 @@ class TabLayout : AppCompatActivity() {
     private lateinit var viewPager : ViewPager2
     private lateinit var adapter : auth_adapter
 
-    @SuppressLint("ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.auth_activity_tab_layout)

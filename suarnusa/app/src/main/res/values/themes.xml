@@ -16,7 +16,9 @@
 
         <!-- Background color -->
         <item name="android:windowBackground">@color/biruterang</item>
+        <!--Font-->
         <item name="android:fontFamily">@font/poppins_regular</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="Theme.SuaraNusa.noActionBar" parent="Theme.MaterialComponents.DayNight.NoActionBar">
@@ -35,6 +37,9 @@
 
         <!-- Background color -->
         <item name="android:windowBackground">@color/biruterang</item>
+        <!-- Font -->
         <item name="android:fontFamily">@font/poppins_regular</item>
+        <item name="android:textColor">@color/black</item>
+
     </style>
 </resources>
