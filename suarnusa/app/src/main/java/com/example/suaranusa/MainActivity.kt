@@ -10,8 +10,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.viewpager2.widget.ViewPager2
-import com.example.suaranusa.adapter.IntroPagerAdapter
 import com.example.suaranusa.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -36,10 +34,15 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
+        // set intent to auth
+        val intent = Intent(this, TabLayout::class.java)
+        startActivity(intent)
+        finish()
+
         val navView: BottomNavigationView = binding.navView
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
-        navController.navigate(R.id.navigation_home)
+        navController.navigate(R.id.navigation_home )
 
         val appBarConfiguration = AppBarConfiguration(
             setOf(

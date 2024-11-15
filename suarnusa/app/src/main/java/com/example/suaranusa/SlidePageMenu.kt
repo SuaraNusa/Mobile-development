@@ -17,8 +17,6 @@ class SlidePageMenu : AppCompatActivity() {
         binding = ActivitySlideBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar?.hide()
-
         binding.buttonNext.setOnClickListener {
             val current = binding.slideVP.currentItem
             if (current < 1) {
