@@ -7,29 +7,51 @@
     android:layout_height="match_parent"
     tools:context=".TabLayout">
 
-    <ToggleButton
-        android:id="@+id/auth"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:checked="true"
-        android:textOff="@string/sign_up"
-        android:textOn="@string/sign_in"
-        app:layout_constraintBottom_toBottomOf="@+id/auth_fragment_container"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-   <FrameLayout
-       android:id="@+id/auth_fragment_container"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintEnd_toEndOf="parent"
-       app:layout_constraintTop_toBottomOf="@+id/auth"
-       app:layout_constraintBottom_toBottomOf="parent"
-       android:layout_marginLeft="8dp"
-       android:layout_marginRight="8dp"
-       />
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center_horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/tabLayout"
+        android:src="@mipmap/logo"
+        />
+
+
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabIndicatorColor="@null"
+            app:tabIndicator="@drawable/tab_auth_indicator"
+            app:tabIndicatorHeight="50dp"
+            app:tabSelectedTextColor="@color/white"
+            app:tabTextColor="@color/black"
+            android:layout_margin="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/logo"
+            app:tabMode="fixed"
+            android:background="@drawable/tab_auth_background"
+            />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="@+id/tabLayout"
+            app:layout_constraintEnd_toEndOf="@+id/tabLayout"
+            app:layout_constraintTop_toBottomOf="@+id/tabLayout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_margin="16dp"
+            />
+
+
+
 
 
 
