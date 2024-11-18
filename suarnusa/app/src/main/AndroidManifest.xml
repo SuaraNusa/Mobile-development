@@ -29,6 +29,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".SlidePageMenu" />
+        <activity android:name=".ui.profile.EditProfileActivity"></activity>
     </application>
 
 </manifest>

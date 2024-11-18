@@ -3,14 +3,16 @@ package com.example.suaranusa
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.util.Log
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.suaranusa.databinding.ActivityMainBinding
+import com.example.suaranusa.ui.profile.BlankFragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         Log.d("Main Intro show", isIntroShow.toString())
 
 
-        if(!isIntroShow){
+        if (!isIntroShow) {
             startActivity(Intent(this, SlidePageMenu::class.java))
             finish()
             return
@@ -46,10 +48,22 @@ class MainActivity : AppCompatActivity() {
 
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications, R.id.navigation_blank
+                R.id.navigation_home, R.id.navigation_history, R.id.navigation_list, R.id.navigation_blank
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
+        super.onCreate(savedInstanceState, persistentState)
+        setContentView(R.layout.activity_main)
+
+        if (savedInstanceState == null) {
+            val blankFragment = BlankFragment()
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.container, blankFragment)
+                .commit()
+        }
     }
 }
