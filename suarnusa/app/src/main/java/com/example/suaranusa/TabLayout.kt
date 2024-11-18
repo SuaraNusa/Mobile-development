@@ -32,7 +32,7 @@ class TabLayout : AppCompatActivity() {
         tabLayout.addTab(tabLayout.newTab().setText("Register"), 0)
         tabLayout.addTab(tabLayout.newTab().setText("Login"), 1)
 
-
+        supportActionBar?.hide()
         viewPager.adapter=adapter
 
         val tabTitles = arrayOf("Register", "Login")

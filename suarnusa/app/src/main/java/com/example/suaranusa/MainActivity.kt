@@ -36,10 +36,7 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        // set intent to auth
-        val intent = Intent(this, TabLayout::class.java)
-        startActivity(intent)
-        finish()
+
 
         val navView: BottomNavigationView = binding.navView
 
