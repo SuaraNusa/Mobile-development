@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/item_background"
+    android:layout_marginBottom="8dp">
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Title"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:layout_marginBottom="4dp" />
+
+    <!-- Time and Date -->
+    <TextView
+        android:id="@+id/textViewTimeDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="time, date"
+        android:textColor="@android:color/darker_gray"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Body Text -->
+    <TextView
+        android:id="@+id/textViewBody"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tembang Tokecang sendiri merupakan sebuah singkatan dari Tokek Makan Kacang yang terkandung di dalamnya mengingatkan bahwa makan banyak atau makan berlebihan tidak baik sebab"
+        android:textColor="@android:color/black" />
+
+</LinearLayout>
