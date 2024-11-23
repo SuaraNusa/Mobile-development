@@ -17,7 +17,7 @@
         android:textStyle="bold"
         android:textSize="20sp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="15dp" />
 
     <!-- RecyclerView untuk grid alat musik -->
     <androidx.recyclerview.widget.RecyclerView
