@@ -24,6 +24,8 @@ class TabLayout : AppCompatActivity() {
         binding = AuthActivityTabLayoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar?.hide()
+
         tabLayout = binding.tabLayout
         viewPager = binding.viewPager
         adapter = auth_adapter(supportFragmentManager, lifecycle)
