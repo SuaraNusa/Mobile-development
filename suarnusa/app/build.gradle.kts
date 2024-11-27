@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("kotlin-parcelize")
 }
 
 android {
@@ -42,6 +43,12 @@ android {
 }
 
 dependencies {
+    // gson
+    implementation ("com.google.code.gson:gson:2.11.0")
+    //retrofit
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation ("com.squareup.okhttp3:logging-interceptor:4.9.1")
     implementation(libs.androidx.viewpager2)
     implementation(libs.dotsindicator)
     implementation(libs.androidx.core.ktx)
