@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.fragment.app.viewModels
@@ -18,6 +19,7 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import com.example.suaranusa.R
 import com.example.suaranusa.response.auth.DataItem
+import com.example.suaranusa.response.auth.VerificationQuestionsItem
 
 
 class RegisterFragment : Fragment(), LifecycleObserver {
@@ -25,6 +27,11 @@ class RegisterFragment : Fragment(), LifecycleObserver {
     private val viewModel:RegisterViewModel by viewModels()
     private lateinit var spinner: Spinner
     private lateinit var rg_button: Button
+    private lateinit var nameInput: EditText
+    private lateinit var emailInput: EditText
+    private lateinit var passwordInput: EditText
+    private lateinit var confirmPasswordInput: EditText
+    private lateinit var answerInput: EditText
 
 
     override fun onCreateView(
@@ -35,7 +42,13 @@ class RegisterFragment : Fragment(), LifecycleObserver {
 
         spinner = view.findViewById(R.id.question_spinner)
         rg_button = view.findViewById(R.id.register_button)
-        rg_button.setOnClickListener{registerButtonDemo()}
+        nameInput = view.findViewById(R.id.username_input)
+        emailInput = view.findViewById(R.id.email_input)
+        passwordInput = view.findViewById(R.id.password_input)
+        confirmPasswordInput = view.findViewById(R.id.confirm_password_input)
+        answerInput = view.findViewById(R.id.answer_input)
+
+        rg_button.setOnClickListener{register()}
         lifecycle.addObserver(this)
         return view
     }
@@ -59,7 +72,7 @@ class RegisterFragment : Fragment(), LifecycleObserver {
         }
     }
 
-    private fun registerButtonDemo(){
+    private fun getQuestionsId(): String{
         var questionsSelect:Array<String> = emptyArray()
         val questions = spinner.tag as List<DataItem>
         val selectedQuestion = questions[spinner.selectedItemPosition].question
@@ -70,7 +83,21 @@ class RegisterFragment : Fragment(), LifecycleObserver {
         }
         Log.d("TAG", "registerButtonDemo: $selectedQuestion")
         Toast.makeText(requireContext(), "Selected question: ${selectedQuestion}", Toast.LENGTH_SHORT).show()
+        return selectedId.toString()
     }
+
+    private fun register(){
+        val name = nameInput.text.toString()
+        val email = emailInput.text.toString()
+        val password = passwordInput.text.toString()
+        val confirmPassword = confirmPasswordInput.text.toString()
+        val answer = answerInput.text.toString()
+        val verificationQuestion = listOf(VerificationQuestionsItem(verificationQuestionId = getQuestionsId().toInt(), answer = answer))
+        Log.d("TAG", "registerButtonDemo: ${viewModel.questions.value}")
+        viewModel.registerUser(name, email, password, confirmPassword, verificationQuestion)
+    }
+
+
 
 
 }
