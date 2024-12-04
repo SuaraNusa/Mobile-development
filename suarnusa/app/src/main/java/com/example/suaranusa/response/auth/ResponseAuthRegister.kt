@@ -1,4 +1,4 @@
-package com.example.suaranusa.resonse
+package com.example.suaranusa.response.auth
 
 import kotlinx.parcelize.Parcelize
 import android.os.Parcelable
@@ -7,19 +7,19 @@ import com.google.gson.annotations.SerializedName
 @Parcelize
 data class ResponseAuthRegister(
 
-	@field:SerializedName("password")
+    @field:SerializedName("password")
 	val password: String,
 
-	@field:SerializedName("verificationQuestions")
+    @field:SerializedName("verificationQuestions")
 	val verificationQuestions: List<VerificationQuestionsItem>,
 
-	@field:SerializedName("name")
+    @field:SerializedName("name")
 	val name: String,
 
-	@field:SerializedName("confirmPassword")
+    @field:SerializedName("confirmPassword")
 	val confirmPassword: String,
 
-	@field:SerializedName("email")
+    @field:SerializedName("email")
 	val email: String
 ) : Parcelable
 

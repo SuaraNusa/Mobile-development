@@ -1,16 +1,16 @@
-package com.example.suaranusa.ui.auth
+package com.example.suaranusa.ui.auth.login
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.example.suaranusa.MainActivity
 import com.example.suaranusa.R
 
 class LoginFragment : Fragment(), View.OnClickListener {
-    //
+
 
 
     override fun onCreateView(

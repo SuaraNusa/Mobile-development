@@ -4,8 +4,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.suaranusa.ui.auth.LoginFragment
-import com.example.suaranusa.ui.auth.RegisterFragment
+import com.example.suaranusa.ui.auth.login.LoginFragment
+import com.example.suaranusa.ui.auth.register.RegisterFragment
 
 class auth_adapter(
     fragmentManager: FragmentManager,

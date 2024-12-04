@@ -1,14 +1,11 @@
 package com.example.suaranusa.api
 
-import com.example.suaranusa.resonse.ResponseQuestion
-import retrofit2.Call
+import com.example.suaranusa.response.auth.ResponseAuthQuestions
 import retrofit2.http.GET
-import retrofit2.http.POST
 
 interface AuthService {
+    @GET("/questions")
+    suspend fun getQuestions(): ResponseAuthQuestions
 
 
-    //ADDING FROM LOCAL PROPERTIES
-    @GET("")
-    fun getQuestions(): Call<ResponseQuestion>
 }

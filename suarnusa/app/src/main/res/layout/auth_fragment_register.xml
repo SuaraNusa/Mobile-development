@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="8dp"
-    tools:context=".ui.auth.RegisterFragment">
+    tools:context=".ui.auth.register.RegisterFragment">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -114,7 +114,7 @@
                 android:padding="10dp"/>
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/login_button"
+                android:id="@+id/register_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/create_an_account"
