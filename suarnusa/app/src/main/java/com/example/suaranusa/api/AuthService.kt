@@ -1,5 +1,8 @@
 package com.example.suaranusa.api
 
+import com.example.suaranusa.model.LoginRequest
+import com.example.suaranusa.model.RegisterRequest
+import com.example.suaranusa.response.auth.ResponseAuthLogin
 import com.example.suaranusa.response.auth.ResponseAuthQuestions
 import com.example.suaranusa.response.auth.ResponseAuthRegister
 import okhttp3.RequestBody
@@ -14,5 +17,8 @@ interface AuthService {
     suspend fun getQuestions(): ResponseAuthQuestions
 
     @POST("/authentication/register")
-    suspend fun registerUser(@Body request: RequestBody): ResponseAuthRegister
+    suspend fun registerUser(@Body register: RegisterRequest): ResponseAuthRegister
+
+    @POST("/authentication/login")
+    suspend fun loginUser(@Body login: LoginRequest): ResponseAuthLogin
 }

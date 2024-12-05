@@ -18,8 +18,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import com.example.suaranusa.R
+import com.example.suaranusa.model.vericationQuestion
 import com.example.suaranusa.response.auth.DataItem
-import com.example.suaranusa.response.auth.VerificationQuestionsItem
 
 
 class RegisterFragment : Fragment(), LifecycleObserver {
@@ -81,23 +81,31 @@ class RegisterFragment : Fragment(), LifecycleObserver {
             questionsSelect += selectedQuestion
             questionsSelect += selectedId.toString()
         }
-        Log.d("TAG", "registerButtonDemo: $selectedQuestion")
-        Toast.makeText(requireContext(), "Selected question: ${selectedQuestion}", Toast.LENGTH_SHORT).show()
-        return selectedId.toString()
+
+           return selectedId.toString()
     }
 
-    private fun register(){
+    private fun register() {
         val name = nameInput.text.toString()
         val email = emailInput.text.toString()
         val password = passwordInput.text.toString()
         val confirmPassword = confirmPasswordInput.text.toString()
         val answer = answerInput.text.toString()
-        val verificationQuestion = listOf(VerificationQuestionsItem(verificationQuestionId = getQuestionsId().toInt(), answer = answer))
-        Log.d("TAG", "registerButtonDemo: ${viewModel.questions.value}")
+        val verificationQuestion = listOf(vericationQuestion(getQuestionsId().toInt(), answer))
         viewModel.registerUser(name, email, password, confirmPassword, verificationQuestion)
+        viewModel.register.observe(viewLifecycleOwner) { response ->
+            Log.d("TAG", "registerButtonDemo: $response")
+            activity?.runOnUiThread {
+                if (response.status == "200") {
+                    Toast.makeText(requireContext(), "Register Success", Toast.LENGTH_SHORT).show()
+                    Log.d("TAG", "registerButtonLOG: ${response.data}")
+                } else {
+                    Toast.makeText(requireContext(), "Register Failed: ${response.errors}", Toast.LENGTH_SHORT).show()
+                    Log.d("TAG", "registerButtonLOG: ${response.errors}")
+                }
+            }
+        }
+
     }
-
-
-
 
 }

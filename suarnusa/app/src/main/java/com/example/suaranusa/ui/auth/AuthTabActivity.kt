@@ -3,7 +3,6 @@ package com.example.suaranusa.ui.auth
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-
 import androidx.viewpager2.widget.ViewPager2
 import com.example.suaranusa.R
 import com.example.suaranusa.adapter.auth_adapter
@@ -41,6 +40,7 @@ class AuthTabActivity : AppCompatActivity() {
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = tabTitles[position]
         }.attach()
+
 
 
     }
