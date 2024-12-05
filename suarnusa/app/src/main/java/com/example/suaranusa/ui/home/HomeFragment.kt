@@ -4,39 +4,48 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import com.example.suaranusa.databinding.FragmentHomeBinding
+import com.example.suaranusa.R
 
 class HomeFragment : Fragment() {
 
-    private var _binding: FragmentHomeBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+    private lateinit var icon: ImageView
+    private lateinit var statusText: TextView
+    private lateinit var instructionText: TextView
+    private var isListening = false
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        val homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
+    ): View? {
+        val root = inflater.inflate(R.layout.fragment_home, container, false)
 
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        icon = root.findViewById(R.id.icon)
+        statusText = root.findViewById(R.id.status_text)
+        instructionText = root.findViewById(R.id.instruction_text)
 
-        val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        icon.setOnClickListener {
+            changeBackgroundState()
         }
+
         return root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    private fun changeBackgroundState() {
+        if (isListening) {
+            icon.setBackgroundResource(R.drawable.circle_background_grey)
+            statusText.text = "Search Song"
+            instructionText.text = "Tap to start recording and find traditional songs"
+        } else {
+//            icon.setBackgroundResource(R.anim.button_transition)
+            icon.setBackgroundResource(R.drawable.circle_background_blue)
+//            val transition = icon.background as TransitionDrawable
+//            transition.startTransition(300)
+            statusText.text = "Listening..."
+            instructionText.text = "Let our AI do magic"
+        }
+        isListening = !isListening
     }
 }
