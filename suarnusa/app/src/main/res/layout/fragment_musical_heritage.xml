@@ -10,6 +10,8 @@
     tools:context=".ui.list.MusicalHeritageFragment">
 
     <!-- Title -->
+
+
     <TextView
         android:id="@+id/textViewTitle"
         android:layout_width="wrap_content"
@@ -24,9 +26,14 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewMusicalHeritage"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:scrollbars="vertical"
-        tools:listitem="@layout/item_musical_heritage" />
-
+        />
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        />
 </LinearLayout>

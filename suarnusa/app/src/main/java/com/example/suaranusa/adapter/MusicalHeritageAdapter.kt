@@ -1,17 +1,14 @@
-package com.example.suaranusa.ui.musical
+package com.example.suaranusa.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.suaranusa.R
+import com.bumptech.glide.Glide
 import com.example.suaranusa.databinding.ItemMusicalHeritageBinding
 
-data class MusicalItem(val name: String, val imageResId: Int)
+data class MusicalItem(val name: String, val imageResId: String)
 
-class MusicalHeritageAdapter(private val musicalList: List<MusicalItem>) :
+class MusicalHeritageAdapter(private var musicalList: List<MusicalItem>) :
     RecyclerView.Adapter<MusicalHeritageAdapter.MusicalViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MusicalViewHolder {
@@ -30,12 +27,19 @@ class MusicalHeritageAdapter(private val musicalList: List<MusicalItem>) :
 
     override fun getItemCount() = musicalList.size
 
+    fun updateItems(newItems: List<MusicalItem>){
+        musicalList = newItems
+        notifyDataSetChanged()
+    }
+
     class MusicalViewHolder(private val binding: ItemMusicalHeritageBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: MusicalItem) {
             binding.textViewInstrumentName.text = item.name
-            binding.imageViewInstrument.setImageResource(item.imageResId)
+            Glide.with(binding.imageViewInstrument.context)
+                .load(item.imageResId)
+                .into(binding.imageViewInstrument)
         }
     }
 }
