@@ -5,6 +5,8 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -13,6 +15,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.suaranusa.R
 import com.example.suaranusa.SlidePageMenu
 import com.example.suaranusa.databinding.ActivityMainBinding
+import com.example.suaranusa.ui.auth.AuthTabActivity
 import com.example.suaranusa.ui.profile.BlankFragment
 import com.example.suaranusa.utils.SessionManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -21,7 +24,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var sharedPreferences: SharedPreferences
-
+    private val viewModel: MainViewModel by viewModels{MainViewModelFactory(this)}
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val sessionManager = SessionManager(this)
@@ -30,6 +33,18 @@ class MainActivity : AppCompatActivity() {
         if (token != null){
             Log.d("Token", token)
         }
+
+        viewModel.checkToken(
+            onTokenValid = {
+                Log.d("MainActivity", "onCreate: Token Valid")
+            },
+            onTokenInvalid = {
+                Log.d("MainActivity", "onCreate: Token Invalid")
+                Toast.makeText(this, "Please login first", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(this, AuthTabActivity::class.java))
+                finish()
+            }
+        )
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

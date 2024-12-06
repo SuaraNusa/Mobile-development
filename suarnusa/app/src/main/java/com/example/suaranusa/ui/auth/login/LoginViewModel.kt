@@ -10,18 +10,20 @@ import kotlinx.coroutines.launch
 
 class LoginViewModel: ViewModel() {
     private val repository = AuthRepository()
-    private val _login = MutableLiveData<ResponseAuthLogin>()
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
-    val login: LiveData<ResponseAuthLogin> get() = _login
 
-     fun loginUser(email: String, password: String){
+
+     fun loginUser(email: String, password: String):LiveData<ResponseAuthLogin> {
         _isLoading.value = true
+         val mutableLiveLogin = MutableLiveData<ResponseAuthLogin>()
         viewModelScope.launch {
             val response = repository.loginUser(email, password)
-            _login.value = response
             _isLoading.value = false
+            mutableLiveLogin.value = response
+
         }
+        return mutableLiveLogin
     }
 
 }

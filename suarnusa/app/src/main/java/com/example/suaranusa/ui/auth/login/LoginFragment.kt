@@ -2,6 +2,7 @@ package com.example.suaranusa.ui.auth.login
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.suaranusa.R
+import com.example.suaranusa.ui.main.MainActivity
 import com.example.suaranusa.utils.SessionManager
 
 class LoginFragment : Fragment(), View.OnClickListener {
@@ -67,15 +69,18 @@ class LoginFragment : Fragment(), View.OnClickListener {
     private fun login() {
         val email = emailInput.text.toString()
         val password = passwordInput.text.toString()
-        viewModel.loginUser(email, password)
-        viewModel.login.observe(viewLifecycleOwner){response ->
-            Log.d("Login", "loginStatus: ${response.status}")
-           if(response.status == "success"){
-               showDialog(requireContext(), "Login Success", "Login Success")
-           }else {
-               showDialog(requireContext(), "Login Failed", "${response.errors}")
-           }
+        viewModel.loginUser(email, password).observe(this){ reponse ->
+            if(reponse.status == "success"){
+                sm.setToken(reponse.data ?: "")
+                showDialog(requireContext(), "Login Success", "Login Success")
+                val intent = Intent(activity, MainActivity::class.java)
+                startActivity(intent)
+                activity?.finish()
+            }else{
+                showDialog(requireContext(), "Login Failed", reponse.errors ?: "Login Failed")
+            }
         }
+
     }
 
     private fun showDialog(context: Context, title: String, message: String){

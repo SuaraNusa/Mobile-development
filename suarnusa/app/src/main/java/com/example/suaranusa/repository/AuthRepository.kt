@@ -64,6 +64,7 @@ class AuthRepository() {
         return try {
             val request = RegisterRequest(name, email, password, confirmPassword, verificationQuestions)
             val response = authService.registerUser(request)
+
             Log.d("REP succ", "registerUser: $response")
             response
         } catch (e: HttpException) {
@@ -96,7 +97,13 @@ class AuthRepository() {
                 val errorJson = JSONObject(error)
                 val message = errorJson.getString("errors")
                 ResponseAuthLogin(null, message, e.code().toString())
-            } else {
+            } else if(e.code() == 401){
+                val errorBody = e.response()?.errorBody()
+                val error = errorBody?.string()
+                val errorJson = JSONObject(error)
+                val message = errorJson.getString("errors")
+                ResponseAuthLogin(null, message, e.code().toString())
+            }else {
                 ResponseAuthLogin(null, "Unknown error", e.code().toString())
             }
         }

@@ -92,8 +92,7 @@ class RegisterFragment : Fragment(), LifecycleObserver {
         val confirmPassword = confirmPasswordInput.text.toString()
         val answer = answerInput.text.toString()
         val verificationQuestion = listOf(vericationQuestion(getQuestionsId().toInt(), answer))
-        viewModel.registerUser(name, email, password, confirmPassword, verificationQuestion)
-        viewModel.register.observe(viewLifecycleOwner) { response ->
+        viewModel.registerUser(name, email, password, confirmPassword, verificationQuestion).observe(viewLifecycleOwner) { response ->
             Log.d("TAG", "registerButtonDemo: $response")
             activity?.runOnUiThread {
                 if (response.status == "200") {
