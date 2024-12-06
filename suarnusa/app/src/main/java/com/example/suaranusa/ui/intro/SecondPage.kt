@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.suaranusa.MainActivity
+import com.example.suaranusa.ui.main.MainActivity
 import com.example.suaranusa.databinding.IntroSecondPageBinding
 
 class SecondPage : Fragment() {
