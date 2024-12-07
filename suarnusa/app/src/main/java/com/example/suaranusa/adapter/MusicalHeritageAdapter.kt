@@ -1,9 +1,11 @@
 package com.example.suaranusa.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.suaranusa.BuildConfig
 import com.example.suaranusa.databinding.ItemMusicalHeritageBinding
 
 data class MusicalItem(val name: String, val imageResId: String)
@@ -37,8 +39,10 @@ class MusicalHeritageAdapter(private var musicalList: List<MusicalItem>) :
 
         fun bind(item: MusicalItem) {
             binding.textViewInstrumentName.text = item.name
+            val imgUrl = "${BuildConfig.API_BASE_URL}${item.imageResId}"
+            Log.d("MusicalHeritageAdapter", "bind: $imgUrl")
             Glide.with(binding.imageViewInstrument.context)
-                .load(item.imageResId)
+                .load(imgUrl)
                 .into(binding.imageViewInstrument)
         }
     }
