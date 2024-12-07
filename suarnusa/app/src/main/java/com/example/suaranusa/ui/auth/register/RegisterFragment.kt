@@ -1,7 +1,6 @@
 package com.example.suaranusa.ui.auth.register
 
-import android.content.Context
-import android.content.pm.PackageManager
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -20,10 +19,10 @@ import androidx.lifecycle.OnLifecycleEvent
 import com.example.suaranusa.R
 import com.example.suaranusa.model.vericationQuestion
 import com.example.suaranusa.response.auth.DataItem
+import com.example.suaranusa.ui.auth.AuthTabActivity
 
 
 class RegisterFragment : Fragment(), LifecycleObserver {
-
     private val viewModel:RegisterViewModel by viewModels()
     private lateinit var spinner: Spinner
     private lateinit var rg_button: Button
@@ -34,6 +33,7 @@ class RegisterFragment : Fragment(), LifecycleObserver {
     private lateinit var answerInput: EditText
 
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,6 +50,7 @@ class RegisterFragment : Fragment(), LifecycleObserver {
 
         rg_button.setOnClickListener{register()}
         lifecycle.addObserver(this)
+
         return view
     }
 
@@ -85,6 +86,7 @@ class RegisterFragment : Fragment(), LifecycleObserver {
            return selectedId.toString()
     }
 
+    @SuppressLint("CommitTransaction")
     private fun register() {
         val name = nameInput.text.toString()
         val email = emailInput.text.toString()
@@ -95,16 +97,34 @@ class RegisterFragment : Fragment(), LifecycleObserver {
         viewModel.registerUser(name, email, password, confirmPassword, verificationQuestion).observe(viewLifecycleOwner) { response ->
             Log.d("TAG", "registerButtonDemo: $response")
             activity?.runOnUiThread {
-                if (response.status == "200") {
+                if (response.status == "success") {
                     Toast.makeText(requireContext(), "Register Success", Toast.LENGTH_SHORT).show()
                     Log.d("TAG", "registerButtonLOG: ${response.data}")
+
+                    // value set to default
+                    nameInput.text.clear()
+                    emailInput.text.clear()
+                    passwordInput.text.clear()
+                    confirmPasswordInput.text.clear()
+                    answerInput.text.clear()
+
+                    (activity as? AuthTabActivity)?.getViewPager()?.currentItem = 1
                 } else {
-                    Toast.makeText(requireContext(), "Register Failed: ${response.errors}", Toast.LENGTH_SHORT).show()
+                    // Toast.makeText(requireContext(), "Register Failed: ${response.errors}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Register Failed: ${errorType(response.errors.toString())}", Toast.LENGTH_SHORT).show()
                     Log.d("TAG", "registerButtonLOG: ${response.errors}")
                 }
             }
         }
 
+    }
+
+    private fun errorType(error: String): String {
+        return if (error.contains("must contain at least 5 character(s)")) {
+            "Username must contain at least 5 character(s)"
+        } else {
+            error
+        }
     }
 
 }
