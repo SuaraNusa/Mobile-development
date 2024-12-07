@@ -132,8 +132,6 @@
                 android:background="@drawable/auth_button"
                 android:padding="10dp"
                 android:text="@string/create_an_account" />
-
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
 </FrameLayout>
