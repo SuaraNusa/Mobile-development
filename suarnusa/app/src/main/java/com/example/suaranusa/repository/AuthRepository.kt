@@ -15,6 +15,7 @@ import org.json.JSONObject
 import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 
 class AuthRepository() {
@@ -27,6 +28,9 @@ class AuthRepository() {
         }
         val client = okhttp3.OkHttpClient.Builder()
             .addInterceptor(logging)
+            .connectTimeout(20, TimeUnit.SECONDS)
+            .readTimeout(20, TimeUnit.SECONDS)
+            .writeTimeout(20, TimeUnit.SECONDS)
             .build()
 
         val baseUrl:String = BuildConfig.API_BASE_URL
