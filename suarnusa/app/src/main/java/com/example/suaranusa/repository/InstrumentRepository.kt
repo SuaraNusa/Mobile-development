@@ -9,6 +9,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 class InstrumentRepository(context:Context) {
 
@@ -24,6 +25,9 @@ class InstrumentRepository(context:Context) {
         val token = sessionManager.getToken()?: ""
         val client = okhttp3.OkHttpClient.Builder()
             .addInterceptor(logging)
+            .connectTimeout(20,TimeUnit.SECONDS)
+            .readTimeout(20,TimeUnit.SECONDS)
+            .writeTimeout(20,TimeUnit.SECONDS)
             .addInterceptor { chain ->
                 val request = chain.request().newBuilder()
                     .addHeader("Authorization", "Bearer $token")
