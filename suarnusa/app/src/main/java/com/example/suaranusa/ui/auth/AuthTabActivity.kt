@@ -66,4 +66,9 @@ class AuthTabActivity : AppCompatActivity() {
             }
         dialog.show()
     }
+
+    // create function getViewPager for fragment use
+    fun getViewPager(): ViewPager2 {
+        return viewPager
+    }
 }
