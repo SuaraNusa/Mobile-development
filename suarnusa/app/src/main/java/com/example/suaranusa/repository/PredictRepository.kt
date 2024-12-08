@@ -8,6 +8,7 @@ import com.example.suaranusa.utils.SessionManager
 import okhttp3.MultipartBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.HttpException
+import java.util.concurrent.TimeUnit
 
 class PredictRepository (context:Context){
     private val predictService : PredictService
@@ -19,6 +20,9 @@ class PredictRepository (context:Context){
         }
         val client = okhttp3.OkHttpClient.Builder()
             .addInterceptor(logging)
+            .connectTimeout(120, TimeUnit.SECONDS)
+            .readTimeout(120, TimeUnit.SECONDS)
+            .writeTimeout(120, TimeUnit.SECONDS)
             .addInterceptor { chain ->
                 val request = chain.request().newBuilder()
                     .addHeader("Authorization", "Bearer $token")
@@ -48,5 +52,7 @@ class PredictRepository (context:Context){
             }
         }
     }
+
+
 
 }

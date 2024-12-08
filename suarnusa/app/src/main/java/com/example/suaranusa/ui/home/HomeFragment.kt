@@ -2,6 +2,8 @@ package com.example.suaranusa.ui.home
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.os.Build
+import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -15,8 +17,9 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.example.suaranusa.R
-import com.google.android.material.animation.AnimationUtils
+import com.example.suaranusa.repository.PredictRepository
 
 class HomeFragment : Fragment() {
 
@@ -24,7 +27,7 @@ class HomeFragment : Fragment() {
     private lateinit var statusText: TextView
     private lateinit var instructionText: TextView
     private var isListening = false
-
+    private val homeViewModel: HomeViewModel by viewModels { HomeViewModelFactory(PredictRepository(requireContext()), requireContext()) }
     companion object {
         private const val RECORD_AUDIO_REQUEST_CODE = 1
         private const val STORAGE_PERMISSION_REQUEST_CODE = 2
@@ -61,6 +64,13 @@ class HomeFragment : Fragment() {
         statusText = root.findViewById(R.id.status_text)
         instructionText = root.findViewById(R.id.instruction_text)
 
+        homeViewModel.isRecording.observe(viewLifecycleOwner, {
+            if(!it){
+                stopRecordingAnim()
+            }
+        })
+
+
         icon.setOnClickListener {
             requestPermissions()
             Log.i("HomeFragment", "Icon clicked")
@@ -68,6 +78,7 @@ class HomeFragment : Fragment() {
 
         return root
     }
+
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -77,54 +88,77 @@ class HomeFragment : Fragment() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             RECORD_AUDIO_REQUEST_CODE -> {
-                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                    // Permission granted
+                if (grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
+                    // Permissions granted
                     requestStoragePermission()
                 } else {
-                    // Permission denied
-                    Toast.makeText(context, "Permission denied to record audio", Toast.LENGTH_SHORT).show()
-                }
-            }
-            STORAGE_PERMISSION_REQUEST_CODE -> {
-                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                    // Permission granted
-                    changeBackgroundState()
-                } else {
-                    // Permission denied
-                    Toast.makeText(context, "Permission denied to access storage", Toast.LENGTH_SHORT).show()
+                    // Permissions denied
+                    Toast.makeText(context, "Permissions denied", Toast.LENGTH_SHORT).show()
                 }
             }
         }
     }
+
     private fun requestStoragePermission() {
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.MANAGE_EXTERNAL_STORAGE)
-            != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf(Manifest.permission.MANAGE_EXTERNAL_STORAGE),
-                STORAGE_PERMISSION_REQUEST_CODE
-            )
-            Log.i("HomeFragment", "Requesting permission storage")
-        } else {
-            // Permission already granted
-            Log.i("HomeFragment", "Permission storage already granted")
-            changeBackgroundState()
-        }
+       if(SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+
+            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_MEDIA_AUDIO)
+                != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(
+                    requireActivity(),
+                    arrayOf(Manifest.permission.READ_MEDIA_AUDIO),
+                    STORAGE_PERMISSION_REQUEST_CODE
+                )
+                Log.i("HomeFragment", "Requesting permission storage")
+            } else {
+                // Permission already granted
+                Log.i("HomeFragment", "Permission Storage already granted")
+                changeBackgroundState()
+                homeViewModel.startRecording()
+            }
+
+       }else{
+
+              if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_MEDIA_AUDIO)
+                != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(
+                     requireActivity(),
+                     arrayOf(Manifest.permission.READ_MEDIA_AUDIO),
+                     STORAGE_PERMISSION_REQUEST_CODE
+                )
+                Log.i("HomeFragment", "Requesting permission storage")
+              } else {
+                // Permission already granted
+                Log.i("HomeFragment", "Permission Storage already granted")
+                changeBackgroundState()
+                  homeViewModel.startRecording()
+              }
+       }
     }
+
+
 
 
     private fun requestPermissions() {
+        val permissions = mutableListOf<String>()
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.RECORD_AUDIO)
             != PackageManager.PERMISSION_GRANTED) {
+            permissions.add(Manifest.permission.RECORD_AUDIO)
+        }
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_MEDIA_AUDIO)
+            != PackageManager.PERMISSION_GRANTED) {
+            permissions.add(Manifest.permission.READ_MEDIA_AUDIO)
+        }
+        if (permissions.isNotEmpty()) {
             ActivityCompat.requestPermissions(
                 requireActivity(),
-                arrayOf(Manifest.permission.RECORD_AUDIO),
+                permissions.toTypedArray(),
                 RECORD_AUDIO_REQUEST_CODE
             )
-            Log.i("HomeFragment", "Requesting permission record")
+            Log.i("HomeFragment", "Requesting permissions: $permissions")
         } else {
-            // Permission already granted
-            Log.i("HomeFragment", "Permission Record already granted")
+            // Permissions already granted
+            Log.i("HomeFragment", "Permissions already granted")
             requestStoragePermission()
         }
     }
@@ -140,11 +174,22 @@ class HomeFragment : Fragment() {
             handler.removeCallbacks(repeater)
             icon.startAnimation(scaleDown)
         } else {
+
             icon.setBackgroundResource(R.drawable.circle_background_blue)
             statusText.text = "Listening..."
             instructionText.text = "Let our AI do magic"
             handler.post(repeater)
         }
         isListening = !isListening
+    }
+
+    private fun stopRecordingAnim(){
+        icon.setBackgroundResource(R.drawable.circle_background_grey)
+        statusText.text = "Search Song"
+        instructionText.text = "Tap to start recording and find traditional songs"
+        val scaleDown = android.view.animation.AnimationUtils.loadAnimation(context, R.anim.scale_down)
+        icon.startAnimation(scaleDown)
+        handler.removeCallbacks(repeater)
+        isListening = false
     }
 }
