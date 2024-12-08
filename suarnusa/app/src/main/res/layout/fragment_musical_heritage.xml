@@ -9,9 +9,6 @@
     android:layout_marginBottom="30dp"
     tools:context=".ui.list.MusicalHeritageFragment">
 
-    <!-- Title -->
-
-
     <TextView
         android:id="@+id/textViewTitle"
         android:layout_width="wrap_content"
@@ -22,7 +19,6 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="15dp" />
 
-    <!-- RecyclerView untuk grid alat musik -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewMusicalHeritage"
         android:layout_width="match_parent"

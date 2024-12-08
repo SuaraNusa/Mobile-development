@@ -29,8 +29,10 @@ class BlankFragment : Fragment() {
         val logoutButton = view.findViewById<Button>(R.id.logoutButton)
 
         myProfileSection.setOnClickListener {
-            val intent = Intent(activity, EditProfileActivity::class.java)
-            startActivity(intent)
+            val transaction = parentFragmentManager.beginTransaction()
+            transaction.replace(R.id.container, ProfileFragment())
+            transaction.addToBackStack(null)
+            transaction.commit()
         }
 
         favoriteSection.setOnClickListener {
