@@ -8,11 +8,30 @@
     android:padding="16dp"
     tools:context=".ui.profile.BlankFragment">
 
+
+    <ImageView
+        android:id="@+id/atas"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="135dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="110dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:src="@drawable/suaranusa"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
         android:id="@+id/myProfileSection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="164dp"
+        android:background="#706DB8"
         android:clickable="true"
         android:focusable="true"
         android:gravity="center_vertical"
@@ -40,15 +59,18 @@
         android:id="@+id/favoriteSection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        android:gravity="center_vertical"
+        android:layout_marginTop="16dp"
+        android:background="#706DB8"
         android:clickable="true"
         android:focusable="true"
-        app:layout_constraintTop_toBottomOf="@id/myProfileSection"
-        app:layout_constraintStart_toStartOf="parent"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp">
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/myProfileSection">
+
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
@@ -57,23 +79,25 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingStart="10dp"
             android:text="Favorite"
-            android:textSize="16sp"
-            android:paddingStart="10dp" />
+            android:textSize="16sp" />
     </LinearLayout>
-
 
     <Button
         android:id="@+id/logoutButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="141dp"
-        android:layout_marginEnd="142dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginStart="157dp"
+        android:layout_marginEnd="126dp"
+        android:layout_marginBottom="84dp"
+        android:background="@android:color/transparent"
         android:drawableLeft="@drawable/baseline_logout_24"
         android:text="Logout"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" />
 
 
