@@ -20,4 +20,8 @@
     <string name="confirm_password">Confirm Password</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="result">Result</string>
+    <string name="song_title_s">Song Title: $s</string>
+    <string name="confident_s">Confident: $s</string>
+    <string name="youtube_title">youtube title</string>
 </resources>
