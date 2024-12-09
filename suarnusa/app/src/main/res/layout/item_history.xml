@@ -8,31 +8,30 @@
     android:background="@drawable/item_background"
     android:layout_marginBottom="8dp">
 
-    <!-- Title -->
-    <TextView
-        android:id="@+id/textViewTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Title"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        android:layout_marginBottom="4dp" />
-
     <!-- Time and Date -->
     <TextView
         android:id="@+id/textViewTimeDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="time, date"
         android:textColor="@android:color/darker_gray"
         android:layout_marginBottom="8dp" />
 
-    <!-- Body Text -->
+    <!--  Predict Title  -->
     <TextView
-        android:id="@+id/textViewBody"
+        android:id="@+id/textViewTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tembang Tokecang sendiri merupakan sebuah singkatan dari Tokek Makan Kacang yang terkandung di dalamnya mengingatkan bahwa makan banyak atau makan berlebihan tidak baik sebab"
-        android:textColor="@android:color/black" />
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:layout_marginBottom="4dp" />
+
+    <!-- Predict Probability -->
+    <TextView
+        android:id="@+id/textViewProbability"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/holo_green_dark"
+        android:textStyle="bold"
+        android:layout_marginBottom="4dp" />
 
 </LinearLayout>

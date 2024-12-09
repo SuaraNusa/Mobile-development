@@ -4,40 +4,45 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import com.example.suaranusa.databinding.FragmentHistoryBinding
-
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.suaranusa.adapter.HistoryAdapter
+import com.example.suaranusa.R
+import com.example.suaranusa.model.HistoryItem
+import com.example.suaranusa.repository.HistoryRepository
 
 class HistoryFragment : Fragment() {
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var historyAdapter: HistoryAdapter
 
-    private var _binding: FragmentHistoryBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        val historyViewModel =
-            ViewModelProvider(this).get(HistoryViewModel::class.java)
-
-        _binding = FragmentHistoryBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-//        val textView: TextView = binding.textDashboard
-//        historyViewModel.text.observe(viewLifecycleOwner) {
-//            textView.text = it
-//        }
-        return root
+    private val viewModel: HistoryViewModel by viewModels {
+        HistoryViewModelFactory(HistoryRepository(requireContext()))
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_history, container, false)
+        recyclerView = view.findViewById(R.id.recyclerViewHistory)
+
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        historyAdapter = HistoryAdapter(emptyList())
+        recyclerView.adapter = historyAdapter
+
+        viewModel.fetchHistoryItems()
+        viewModel.historyItems.observe(viewLifecycleOwner) { historyItems ->
+            historyAdapter.updateItems(historyItems)
+        }
+
+        return view
+    }
+
+    private fun getHistoryItems(): List<HistoryItem> {
+        return listOf(
+            HistoryItem(1, 1, "mykisah", "0.9", "1000000"),
+        )
     }
 }

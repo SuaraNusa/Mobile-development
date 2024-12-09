@@ -8,11 +8,19 @@
     android:padding="16dp"
     tools:context=".ui.history.HistoryFragment">
 
+    <!-- TextView untuk menampilkan judul halaman -->
+    <TextView
+        android:id="@+id/textViewHistory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/title_history"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
     <!-- RecyclerView untuk menampilkan daftar item -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewHistory"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical" />
-
 </LinearLayout>

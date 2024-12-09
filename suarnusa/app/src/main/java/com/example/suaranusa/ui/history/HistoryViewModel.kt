@@ -1,13 +1,25 @@
 package com.example.suaranusa.ui.history
 
+import com.example.suaranusa.repository.HistoryRepository
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.suaranusa.model.HistoryItem
+import kotlinx.coroutines.launch
 
-class HistoryViewModel : ViewModel() {
+class HistoryViewModel(private val repository: HistoryRepository) : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is history Fragment"
+    private val _historyItems = MutableLiveData<List<HistoryItem>>()
+    private val _loading = MutableLiveData<Boolean>()
+
+    val loading: LiveData<Boolean> get() = _loading
+    val historyItems: LiveData<List<HistoryItem>> get() = _historyItems
+
+    fun fetchHistoryItems() {
+        viewModelScope.launch {
+            _historyItems.value = repository.getHistory(1)
+        }
     }
-    val text: LiveData<String> = _text
 }
