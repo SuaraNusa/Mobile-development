@@ -3,6 +3,8 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+//    id("com.google.devtools.ksp")
+    id("kotlin-kapt")
     id("kotlin-parcelize")
 }
 val localProperties = Properties()
@@ -10,6 +12,7 @@ val localPropertiesFile = rootProject.file("local.properties")
 if (localPropertiesFile.exists()) {
     localPropertiesFile.inputStream().use { localProperties.load(it) }
 }
+
 
 android {
     namespace = "com.example.suaranusa"
@@ -23,6 +26,13 @@ android {
         versionName = "1.0"
         buildConfigField("String", "API_BASE_URL", "\"${localProperties.getProperty("API_BASE_URL")}\"")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions{
+            annotationProcessorOptions {
+                arguments["room.schemaLocation"] = "$projectDir/schemas".toString()
+            }
+        }
+
     }
 
     buildTypes {
@@ -36,12 +46,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
 
     buildFeatures {
@@ -57,6 +67,10 @@ dependencies {
     implementation ("com.squareup.okhttp3:logging-interceptor:4.9.1")
     implementation ("com.auth0:java-jwt:4.4.0")
     implementation ("com.github.bumptech.glide:glide:4.16.0")
+    implementation("androidx.room:room-runtime:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
+    implementation("androidx.room:room-ktx:2.2.5")
+    kapt("com.github.bumptech.glide:compiler:4.16.0")
     implementation(libs.androidx.viewpager2)
     implementation(libs.dotsindicator)
     implementation(libs.androidx.core.ktx)
