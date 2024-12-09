@@ -61,6 +61,7 @@ dependencies {
     implementation("androidx.room:room-runtime:2.2.5")
     kapt("androidx.room:room-compiler:2.2.5")
     implementation("androidx.room:room-ktx:2.2.5")
+    kapt ("com.github.bumptech.glide:compiler:4.16.0")
     implementation(libs.androidx.viewpager2)
     implementation(libs.dotsindicator)
     implementation(libs.androidx.core.ktx)

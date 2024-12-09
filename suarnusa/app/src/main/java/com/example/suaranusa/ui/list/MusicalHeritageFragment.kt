@@ -8,13 +8,13 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.suaranusa.R
 import com.example.suaranusa.adapter.MusicalHeritageAdapter
 import com.example.suaranusa.adapter.MusicalItem
 import com.example.suaranusa.repository.InstrumentRepository
+import com.example.suaranusa.response.instrument.DataItem
 import com.example.suaranusa.ui.musicalheritage.MusicalHeritageViewModel
 
 
@@ -38,7 +38,7 @@ class MusicalHeritageFragment : Fragment() {
         progressBar = view.findViewById(R.id.progressBar)
 
         recyclerView.layoutManager = LinearLayoutManager(context)
-        musicalAdapter = MusicalHeritageAdapter(emptyList())
+        musicalAdapter = MusicalHeritageAdapter(emptyList(), requireContext())
         recyclerView.adapter = musicalAdapter
 
         viewModel.fetchInstruments()
@@ -50,12 +50,19 @@ class MusicalHeritageFragment : Fragment() {
             }
 
         }
-        viewModel.instruments.observe(viewLifecycleOwner, Observer { response->
+        viewModel.instruments.observe(viewLifecycleOwner,  { response->
             response.data.let { dataItem ->
                 val musicalItems = dataItem?.map{dataItem->
+                    Log.d("MusicalHeritageFragment", "DataItems: ${dataItem}")
+                    Log.d("MusicalHeritageFragment", "DataItems: $dataItem")
+
+                    val imagePath = listOf(0, 1, 2, 3).mapNotNull { index ->
+                        dataItem?.instrumentResources?.getOrNull(index)?.imagePath
+                    }.firstOrNull() ?: ""
                     MusicalItem(
                         dataItem?.name?:"",
-                        dataItem?.instrumentResources?.firstOrNull()?.imagePath?:"")
+                        imagePath
+                    )
                 }
                 musicalAdapter.updateItems(musicalItems?: emptyList())
             }
