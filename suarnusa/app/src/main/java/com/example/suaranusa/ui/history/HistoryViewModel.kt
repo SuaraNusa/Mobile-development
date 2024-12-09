@@ -19,7 +19,13 @@ class HistoryViewModel(private val repository: HistoryRepository) : ViewModel() 
 
     fun fetchHistoryItems() {
         viewModelScope.launch {
-            _historyItems.value = repository.getHistory(1)
+//            _historyItems.value = repository.getHistory(1)
+            _historyItems.value = listOf(
+                HistoryItem(1, 1, "mykisah", "0.9", "2021-08-01T00:00:00Z"),
+                HistoryItem(1, 1, "mykisah", "0.9", "2021-08-01T00:00:00Z"),
+                HistoryItem(1, 1, "mykisah", "0.9", "2021-08-01T00:00:00Z"),
+                HistoryItem(1, 1, "mykisah", "0.9", "2021-08-01T00:00:00Z")
+            )
         }
     }
 }
