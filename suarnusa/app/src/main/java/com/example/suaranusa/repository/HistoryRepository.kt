@@ -2,10 +2,10 @@ package com.example.suaranusa.repository
 
 import android.content.Context
 import com.example.suaranusa.model.HistoryItem
-import com.example.suaranusa.database.HistoryDatabase
+import com.example.suaranusa.database.AppDatabase
 
 class HistoryRepository(context: Context) {
-    private val db = HistoryDatabase.getDatabase(context)
+    private val db = AppDatabase.getDatabase(context)
 
     suspend fun insertHistory(historyItem: HistoryItem) {
         db.historyDao().insertHistory(historyItem)

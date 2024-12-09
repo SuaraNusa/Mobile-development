@@ -30,7 +30,7 @@ class HistoryAdapter(private var historyList: List<HistoryItem>) :
 
     fun updateItems(newItems: List<HistoryItem>){
         historyList = newItems
-        notifyDataSetChanged()
+//        notifyDataSetChanged()
     }
 
     class HistoryViewHolder(private val binding: ItemHistoryBinding) :
@@ -38,8 +38,10 @@ class HistoryAdapter(private var historyList: List<HistoryItem>) :
 
         @SuppressLint("SetTextI18n")
         fun bind(item: HistoryItem) {
-            val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
-            val formattedDate = dateFormat.format(item.createdAt)
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
+            val outputFormat = SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm", Locale.getDefault())
+            val date = inputFormat.parse(item.createdAt)
+            val formattedDate = date?.let { outputFormat.format(it) }
 
             binding.textViewTimeDate.text = formattedDate
             binding.textViewTitle.text = item.predictLabel

@@ -39,10 +39,4 @@ class HistoryFragment : Fragment() {
 
         return view
     }
-
-    private fun getHistoryItems(): List<HistoryItem> {
-        return listOf(
-            HistoryItem(1, 1, "mykisah", "0.9", "1000000"),
-        )
-    }
 }
