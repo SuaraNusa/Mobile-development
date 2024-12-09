@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -19,8 +20,10 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.suaranusa.R
 import com.example.suaranusa.repository.PredictRepository
+import com.example.suaranusa.ui.home.result.ResultFragment
 
 class HomeFragment : Fragment() {
 
@@ -28,6 +31,7 @@ class HomeFragment : Fragment() {
     private lateinit var statusText: TextView
     private lateinit var instructionText: TextView
     private var isListening = false
+    private lateinit var progressBar: ProgressBar
     private val homeViewModel: HomeViewModel by viewModels { HomeViewModelFactory(PredictRepository(requireContext()), requireContext()) }
     companion object {
         private const val RECORD_AUDIO_REQUEST_CODE = 1
@@ -64,10 +68,19 @@ class HomeFragment : Fragment() {
         icon = root.findViewById(R.id.icon)
         statusText = root.findViewById(R.id.status_text)
         instructionText = root.findViewById(R.id.instruction_text)
+        progressBar = root.findViewById(R.id.loading_bar)
 
         homeViewModel.isRecording.observe(viewLifecycleOwner, {
             if(!it){
                 stopRecordingAnim()
+            }
+        })
+
+        homeViewModel.isLoading.observe(viewLifecycleOwner,{isLoading->
+            if(isLoading){
+                progressBar.visibility = View.VISIBLE
+            }else{
+                progressBar.visibility = View.GONE
             }
         })
 
@@ -80,6 +93,13 @@ class HomeFragment : Fragment() {
                     .show()
             }
 
+        })
+
+        homeViewModel.responsePredict.observe(viewLifecycleOwner,{ responsePredict->
+                responsePredict.let {
+                    val action = HomeFragmentDirections.actionNavigationHomeToResultFragment(responsePredict)
+                    findNavController().navigate(action)
+                }
         })
 
 
