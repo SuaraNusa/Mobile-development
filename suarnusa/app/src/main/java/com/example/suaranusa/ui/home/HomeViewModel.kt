@@ -6,14 +6,12 @@ import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.suaranusa.repository.PredictRepository
 import com.example.suaranusa.response.predict.ResponsePredict
-import com.example.suaranusa.ui.main.MainActivity
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -30,6 +28,9 @@ class HomeViewModel(private val repository: PredictRepository, private val conte
     private val _isRecording = MutableLiveData<Boolean>()
     val isRecording: LiveData<Boolean> get() = _isRecording
 
+    private val _isError = MutableLiveData<String?>()
+    val isError: LiveData<String?> get() = _isError
+
     private val _responsePredict = MutableLiveData<ResponsePredict>()
     val responsePredict: LiveData<ResponsePredict> get() = _responsePredict
 
@@ -41,9 +42,17 @@ class HomeViewModel(private val repository: PredictRepository, private val conte
     fun fetchInstrument(file: MultipartBody.Part){
         viewModelScope.launch {
             try {
-                _responsePredict.value = repository.predict(file)
+              val response = repository.predict(file)
+                val fiveVideos = response.data?.videos?.take(5)
+                val newVideos = response.copy(data = response.data?.copy(videos = fiveVideos))
+                _responsePredict.value = newVideos
+                Log.d("PRED", "fetchInstrument: ${_responsePredict.value}")
+
             }catch (e: Exception){
                 _responsePredict.value = ResponsePredict(null, e.message, "error")
+                _isError.value = "error"
+                Log.d("PRED", "fetchInstrument: ${_responsePredict.value}")
+
             }
         }
     }
