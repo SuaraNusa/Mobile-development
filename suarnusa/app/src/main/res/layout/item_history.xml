@@ -11,6 +11,7 @@
     <!-- Time and Date -->
     <TextView
         android:id="@+id/textViewTimeDate"
+        android:text="dateTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/darker_gray"
@@ -19,6 +20,7 @@
     <!--  Predict Title  -->
     <TextView
         android:id="@+id/textViewTitle"
+        android:text="Predict Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
@@ -28,10 +30,17 @@
     <!-- Predict Probability -->
     <TextView
         android:id="@+id/textViewProbability"
+        android:text="Probability"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/holo_green_dark"
         android:textStyle="bold"
         android:layout_marginBottom="4dp" />
+    <ImageButton
+        android:id="@+id/favoriteButton"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:background="@null"
+        android:src="@drawable/favoritefalse"/>
 
 </LinearLayout>

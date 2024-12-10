@@ -2,11 +2,13 @@ package com.example.suaranusa.utils
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import com.auth0.jwt.JWT
 import com.auth0.jwt.interfaces.DecodedJWT
 
 object jwtDecoder{
     fun decode(token: String): DecodedJWT{
+        Log.d("jwtDecoder", "$token")
         return JWT.decode(token)
     }
     fun getKeyValue(token: String, key: String): String{

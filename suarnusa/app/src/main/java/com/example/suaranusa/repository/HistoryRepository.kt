@@ -1,6 +1,7 @@
 package com.example.suaranusa.repository
 
 import android.content.Context
+import androidx.lifecycle.LiveData
 import com.example.suaranusa.model.HistoryItem
 import com.example.suaranusa.database.AppDatabase
 
@@ -11,7 +12,11 @@ class HistoryRepository(context: Context) {
         db.historyDao().insertHistory(historyItem)
     }
 
-    suspend fun getHistory(userId: Int): List<HistoryItem> {
+     fun getHistory(userId: Int): LiveData<List<HistoryItem>> {
         return db.historyDao().getHistory(userId)
+    }
+
+    suspend fun updateIsFavorite(id: Int, isFavorite: Boolean) {
+        db.historyDao().isFavorite(id, isFavorite)
     }
 }

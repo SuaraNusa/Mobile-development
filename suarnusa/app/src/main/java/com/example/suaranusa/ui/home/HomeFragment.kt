@@ -84,22 +84,24 @@ class HomeFragment : Fragment() {
             }
         })
 
-        homeViewModel.isError.observe(viewLifecycleOwner,{ isError->
-            if(isError != null){
-                AlertDialog.Builder(requireContext())
-                    .setTitle("Error")
-                    .setMessage(isError)
-                    .setPositiveButton("OK", null)
-                    .show()
-            }
-
-        })
 
         homeViewModel.responsePredict.observe(viewLifecycleOwner,{ responsePredict->
+            if(responsePredict.data != null){
                 responsePredict.let {
                     val action = HomeFragmentDirections.actionNavigationHomeToResultFragment(responsePredict)
                     findNavController().navigate(action)
+
                 }
+            }else{
+                AlertDialog.Builder(requireContext())
+                    .setTitle("Not Found")
+                    .setMessage("Sorry we cannot find your song")
+                    .setPositiveButton("OK"){ dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    .show()
+                homeViewModel.clearResponsePredict()
+            }
         })
 
 
@@ -128,6 +130,17 @@ class HomeFragment : Fragment() {
                     Toast.makeText(context, "Permissions denied", Toast.LENGTH_SHORT).show()
                 }
             }
+            STORAGE_PERMISSION_REQUEST_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Storage permission granted
+                    Log.i("HomeFragment", "Storage permission granted")
+                    changeBackgroundState()
+                    homeViewModel.startRecording()
+                } else {
+                    // Storage permission denied
+                    Toast.makeText(context, "Storage permission denied", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 
@@ -151,13 +164,14 @@ class HomeFragment : Fragment() {
 
        }else{
 
-              if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_MEDIA_AUDIO)
+              if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(
-                     requireActivity(),
-                     arrayOf(Manifest.permission.READ_MEDIA_AUDIO),
-                     STORAGE_PERMISSION_REQUEST_CODE
-                )
+                  //REQUEST PERMISSION EXTERNAL STORAGE
+                    ActivityCompat.requestPermissions(
+                        requireActivity(),
+                        arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                        STORAGE_PERMISSION_REQUEST_CODE
+                    )
                 Log.i("HomeFragment", "Requesting permission storage")
               } else {
                 // Permission already granted

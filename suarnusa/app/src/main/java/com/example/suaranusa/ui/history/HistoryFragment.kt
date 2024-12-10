@@ -10,15 +10,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.suaranusa.adapter.HistoryAdapter
 import com.example.suaranusa.R
-import com.example.suaranusa.model.HistoryItem
 import com.example.suaranusa.repository.HistoryRepository
+import com.example.suaranusa.utils.SessionManager
 
 class HistoryFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var historyAdapter: HistoryAdapter
+    private lateinit var sm:SessionManager
 
     private val viewModel: HistoryViewModel by viewModels {
-        HistoryViewModelFactory(HistoryRepository(requireContext()))
+        HistoryViewModelFactory(HistoryRepository(requireContext()), requireContext())
     }
 
     override fun onCreateView(
@@ -27,9 +28,8 @@ class HistoryFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_history, container, false)
         recyclerView = view.findViewById(R.id.recyclerViewHistory)
-
         recyclerView.layoutManager = LinearLayoutManager(context)
-        historyAdapter = HistoryAdapter(emptyList())
+        historyAdapter = HistoryAdapter(emptyList(), requireContext())
         recyclerView.adapter = historyAdapter
 
         viewModel.fetchHistoryItems()
