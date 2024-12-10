@@ -1,6 +1,7 @@
 package com.example.suaranusa.ui.history
 
 import android.content.Context
+import androidx.core.content.ContentProviderCompat.requireContext
 import com.example.suaranusa.repository.HistoryRepository
 
 import androidx.lifecycle.LiveData
@@ -13,16 +14,17 @@ import com.example.suaranusa.utils.SessionManager
 import com.example.suaranusa.utils.jwtDecoder
 import kotlinx.coroutines.launch
 
-class HistoryViewModel(private val repository: HistoryRepository, context:Context) : ViewModel() {
+class HistoryViewModel(private val repository: HistoryRepository, private val session: SessionManager) : ViewModel() {
 
     private val _historyItems = MutableLiveData<List<HistoryItem>>()
     private val _loading = MutableLiveData<Boolean>()
-    private val sm:SessionManager = SessionManager(context)
 
     val loading: LiveData<Boolean> get() = _loading
     val historyItems: LiveData<List<HistoryItem>> get() = _historyItems
 
     fun fetchHistoryItems() {
+        _loading.value = true
+
         val id = getUserId()
         repository.getHistory(id).observeForever { items ->
             _historyItems.value = items
@@ -31,7 +33,7 @@ class HistoryViewModel(private val repository: HistoryRepository, context:Contex
     }
 
     fun getUserId():Int{
-        val token = sm.getToken()
+        val token = session.getToken()
         val decode: DecodedJWT? = jwtDecoder.decode(token?:"")
         if(decode != null){
             val claims = decode.claims
