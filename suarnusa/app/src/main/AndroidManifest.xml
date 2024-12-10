@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.suaranusa">
+    package="com.example.suaranusa"
+    >
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -18,11 +20,19 @@
         android:theme="@style/Theme.SuaraNusa"
         tools:targetApi="31">
         <activity
+            android:name=".ui.profile.FavActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.profile.ProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.profile.EditProfilee"
+            android:exported="false" />
+        <activity
             android:name=".ui.auth.AuthTabActivity"
             android:exported="false"
             android:theme="@style/Theme.SuaraNusa.noActionBar"
-            android:windowSoftInputMode="adjustPan"
-            />
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.main.MainActivity"
             android:exported="true"
@@ -34,7 +44,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".SlidePageMenu" />
-<!--        <activity android:name=".ui.profile.EditProfileActivity"></activity>-->
+        <activity android:name=".ui.profile.EditProfileActivity"></activity>
     </application>
 
 </manifest>
