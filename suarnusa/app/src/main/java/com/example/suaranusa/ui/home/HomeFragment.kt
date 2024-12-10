@@ -132,7 +132,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun requestStoragePermission() {
-       if(SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+       if(SDK_INT >= Build.VERSION_CODES.R){
 
             if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_MEDIA_AUDIO)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -151,11 +151,11 @@ class HomeFragment : Fragment() {
 
        }else{
 
-              if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_MEDIA_AUDIO)
+              if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(
                      requireActivity(),
-                     arrayOf(Manifest.permission.READ_MEDIA_AUDIO),
+                     arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
                      STORAGE_PERMISSION_REQUEST_CODE
                 )
                 Log.i("HomeFragment", "Requesting permission storage")
