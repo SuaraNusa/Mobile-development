@@ -84,22 +84,24 @@ class HomeFragment : Fragment() {
             }
         })
 
-        homeViewModel.isError.observe(viewLifecycleOwner,{ isError->
-            if(isError != null){
-                AlertDialog.Builder(requireContext())
-                    .setTitle("Error")
-                    .setMessage(isError)
-                    .setPositiveButton("OK", null)
-                    .show()
-            }
-
-        })
 
         homeViewModel.responsePredict.observe(viewLifecycleOwner,{ responsePredict->
+            if(responsePredict.data != null){
                 responsePredict.let {
                     val action = HomeFragmentDirections.actionNavigationHomeToResultFragment(responsePredict)
                     findNavController().navigate(action)
+                homeViewModel.clearResponsePredict()
                 }
+            }else{
+                AlertDialog.Builder(requireContext())
+                    .setTitle("Not Found")
+                    .setMessage("Sorry we cannot find your song")
+                    .setPositiveButton("OK"){ dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    .show()
+                homeViewModel.clearResponsePredict()
+            }
         })
 
 

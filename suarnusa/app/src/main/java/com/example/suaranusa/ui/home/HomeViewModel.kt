@@ -97,5 +97,8 @@ class HomeViewModel(private val repository: PredictRepository, private val conte
         fetchInstrument(body)
     }
 
+    fun clearResponsePredict() {
+        _responsePredict.value = null
+    }
 
 }

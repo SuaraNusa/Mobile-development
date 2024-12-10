@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "history_search")
 data class HistoryItem(
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    val id: Int = 0,
     val userId: Int,
     val predictLabel: String,
     val predictProb: String,
