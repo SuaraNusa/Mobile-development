@@ -128,11 +128,22 @@ class HomeFragment : Fragment() {
                     Toast.makeText(context, "Permissions denied", Toast.LENGTH_SHORT).show()
                 }
             }
+            STORAGE_PERMISSION_REQUEST_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Storage permission granted
+                    Log.i("HomeFragment", "Storage permission granted")
+                    changeBackgroundState()
+                    homeViewModel.startRecording()
+                } else {
+                    // Storage permission denied
+                    Toast.makeText(context, "Storage permission denied", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 
     private fun requestStoragePermission() {
-       if(SDK_INT >= Build.VERSION_CODES.HONEYCOMB){
+       if(SDK_INT >= Build.VERSION_CODES.TIRAMISU){
 
             if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_MEDIA_AUDIO)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -151,13 +162,14 @@ class HomeFragment : Fragment() {
 
        }else{
 
-              if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_MEDIA_AUDIO)
+              if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(
-                     requireActivity(),
-                     arrayOf(Manifest.permission.READ_MEDIA_AUDIO),
-                     STORAGE_PERMISSION_REQUEST_CODE
-                )
+                  //REQUEST PERMISSION EXTERNAL STORAGE
+                    ActivityCompat.requestPermissions(
+                        requireActivity(),
+                        arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                        STORAGE_PERMISSION_REQUEST_CODE
+                    )
                 Log.i("HomeFragment", "Requesting permission storage")
               } else {
                 // Permission already granted
