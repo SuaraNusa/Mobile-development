@@ -1,16 +1,25 @@
 package com.example.suaranusa.adapter
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.suaranusa.R
 import com.example.suaranusa.databinding.ItemHistoryBinding
 import com.example.suaranusa.model.HistoryItem
+import com.example.suaranusa.repository.HistoryRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class HistoryAdapter(private var historyList: List<HistoryItem>) :
+class HistoryAdapter(private var historyList: List<HistoryItem>, context: Context) :
     RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
+
+        private val repository:HistoryRepository = HistoryRepository(context)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
         val binding = ItemHistoryBinding.inflate(
@@ -33,7 +42,7 @@ class HistoryAdapter(private var historyList: List<HistoryItem>) :
 //        notifyDataSetChanged()
     }
 
-    class HistoryViewHolder(private val binding: ItemHistoryBinding) :
+   inner class HistoryViewHolder(private val binding: ItemHistoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         @SuppressLint("SetTextI18n")
@@ -46,6 +55,22 @@ class HistoryAdapter(private var historyList: List<HistoryItem>) :
             binding.textViewTimeDate.text = formattedDate
             binding.textViewTitle.text = item.predictLabel
             binding.textViewProbability.text = item.predictProb
+            binding.favoriteButton.setImageResource(if(item.isFavorite)R.drawable.favoritetrue else R.drawable.favoritefalse)
+            binding.favoriteButton.setOnClickListener {
+                var newFavorite = !item.isFavorite
+                Log.d("Favorite", newFavorite.toString())
+                updateIsFavorite(item.id, newFavorite)
+                binding.favoriteButton.setImageResource(
+                   if(newFavorite) R.drawable.favoritetrue else R.drawable.favoritefalse
+                )
+            }
+
+        }
+    }
+
+     fun updateIsFavorite(id:Int, isFavorite:Boolean){
+        CoroutineScope(Dispatchers.IO).launch {
+            repository.updateIsFavorite(id, isFavorite)
         }
     }
 }

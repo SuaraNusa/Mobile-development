@@ -14,7 +14,6 @@ import com.example.suaranusa.R
 import com.example.suaranusa.adapter.MusicalHeritageAdapter
 import com.example.suaranusa.adapter.MusicalItem
 import com.example.suaranusa.repository.InstrumentRepository
-import com.example.suaranusa.response.instrument.DataItem
 import com.example.suaranusa.ui.musicalheritage.MusicalHeritageViewModel
 
 
@@ -60,6 +59,7 @@ class MusicalHeritageFragment : Fragment() {
                         dataItem?.instrumentResources?.getOrNull(index)?.imagePath
                     }.firstOrNull() ?: ""
                     MusicalItem(
+                        dataItem?.id?.toString()?:"",
                         dataItem?.name?:"",
                         imagePath
                     )

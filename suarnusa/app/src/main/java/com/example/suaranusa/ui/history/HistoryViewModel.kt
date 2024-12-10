@@ -24,9 +24,9 @@ class HistoryViewModel(private val repository: HistoryRepository, context:Contex
 
     fun fetchHistoryItems() {
         val id = getUserId()
-        viewModelScope.launch {
-            _historyItems.value = repository.getHistory(id)
-
+        repository.getHistory(id).observeForever { items ->
+            _historyItems.value = items
+            _loading.value = false
         }
     }
 

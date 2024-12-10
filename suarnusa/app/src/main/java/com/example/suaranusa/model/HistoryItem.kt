@@ -10,5 +10,6 @@ data class HistoryItem(
     val userId: Int,
     val predictLabel: String,
     val predictProb: String,
-    val createdAt: String
+    val createdAt: String,
+    val isFavorite: Boolean = false
 )

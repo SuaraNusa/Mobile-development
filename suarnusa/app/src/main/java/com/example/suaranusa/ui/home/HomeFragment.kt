@@ -90,7 +90,7 @@ class HomeFragment : Fragment() {
                 responsePredict.let {
                     val action = HomeFragmentDirections.actionNavigationHomeToResultFragment(responsePredict)
                     findNavController().navigate(action)
-                homeViewModel.clearResponsePredict()
+
                 }
             }else{
                 AlertDialog.Builder(requireContext())
