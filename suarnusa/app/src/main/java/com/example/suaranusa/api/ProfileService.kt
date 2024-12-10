@@ -5,6 +5,7 @@ import okhttp3.MultipartBody
 import retrofit2.http.Field
 import retrofit2.http.Multipart
 import retrofit2.http.PUT
+import retrofit2.http.Part
 
 interface ProfileService {
     @Multipart
@@ -14,6 +15,6 @@ interface ProfileService {
         @Field("email") email: String,
         @Field("password") password: String,
         @Field("confirmPassword") confirmPassword: String,
-        @Field("profile") file: MultipartBody.Part
+        @Part profile: MultipartBody.Part? = null
     ) : ResponseProfile
 }

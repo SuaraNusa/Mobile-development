@@ -8,15 +8,23 @@ import com.example.suaranusa.utils.SessionManager
 import okhttp3.MultipartBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.HttpException
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.io.IOException
 import java.util.concurrent.TimeUnit
 
-class ProfileRepository (context: Context) {
+class ProfileRepository(context: Context) {
     private val profileService: ProfileService
     private val sessionManager: SessionManager = SessionManager(context)
+
     init {
-        val token = sessionManager.getToken()
+        val token = sessionManager.getToken() ?: ""
         val logging = HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
+            level = if (BuildConfig.DEBUG) {
+                HttpLoggingInterceptor.Level.BODY
+            } else {
+                HttpLoggingInterceptor.Level.NONE
+            }
         }
         val client = okhttp3.OkHttpClient.Builder()
             .addInterceptor(logging)
@@ -31,30 +39,33 @@ class ProfileRepository (context: Context) {
             }
             .build()
 
-        val retrofit = retrofit2.Retrofit.Builder()
+        val retrofit = Retrofit.Builder()
             .baseUrl(BuildConfig.API_BASE_URL)
             .client(client)
-            .addConverterFactory(retrofit2.converter.gson.GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
 
         profileService = retrofit.create(ProfileService::class.java)
     }
 
-    suspend fun editProfile(name: String, email: String, password: String, confirmPassword: String, profile: MultipartBody.Part) : ResponseProfile {
+    suspend fun editProfile(
+        name: String,
+        email: String,
+        password: String,
+        confirmPassword: String,
+        profile: MultipartBody.Part
+    ): ResponseProfile {
         return try {
-            profileService.editProfile(
-                name,
-                email,
-                password,
-                confirmPassword,
-                profile
-            )
-        }catch (e: HttpException){
-            if (e.code() == 400){
-                ResponseProfile(null, e.message(), e.code().toString())
-            }else{
-                ResponseProfile(null, e.message(), e.code().toString())
-            }
+            profileService.editProfile(name, email, password, confirmPassword, profile)
+        } catch (e: HttpException) {
+            // Tangani kesalahan HTTP
+            ResponseProfile(null, "HTTP error: ${e.message}", e.code().toString())
+        } catch (e: IOException) {
+            // Tangani kesalahan koneksi
+            ResponseProfile(null, "Network error: ${e.message}", "network_error")
+        } catch (e: Exception) {
+            // Tangani kesalahan tak terduga lainnya
+            ResponseProfile(null, "Unexpected error: ${e.message}", "unexpected_error")
         }
     }
 }
