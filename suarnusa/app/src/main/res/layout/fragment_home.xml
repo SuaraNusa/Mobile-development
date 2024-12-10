@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".ui.main.MainActivity">
 
     <ImageView
         android:id="@+id/icon"
@@ -42,5 +42,16 @@
         android:text="Tap to start recording and find traditional songs"
         android:textSize="14sp"
         android:textColor="@android:color/darker_gray" />
+
+    <ProgressBar
+        android:id="@+id/loading_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/icon"
+        app:layout_constraintTop_toTopOf="@+id/icon"
+        app:layout_constraintEnd_toEndOf="@+id/icon"
+        app:layout_constraintBottom_toBottomOf="@+id/icon"
+        android:visibility="gone"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

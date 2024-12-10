@@ -5,10 +5,47 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.result.ResultFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:paddingTop="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/result"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                />
+
+            <TextView
+                android:id="@+id/song_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/song_title_s"
+                />
+
+            <TextView
+                android:id="@+id/confident"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/confident_s"
+                />
+
+            <LinearLayout
+                android:id="@+id/videos_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"/>
+
+        </LinearLayout>
+    </ScrollView>
 </FrameLayout>

@@ -1,28 +1,37 @@
 package com.example.suaranusa.response.predict
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class ResponsePredict(
 
 	@field:SerializedName("data")
 	val data: Data? = null,
 
 	@field:SerializedName("errors")
-	val errors: Any? = null,
+	val errors: String? = null,
 
 	@field:SerializedName("status")
 	val status: String? = null
-)
+):Parcelable
 
+@Parcelize
 data class Data(
 
 	@field:SerializedName("score")
-	val score: Any? = null,
+	val score: String? = null,
 
 	@field:SerializedName("videos")
-	val videos: List<VideosItem?>? = null
-)
+	val videos: List<VideosItem?>? = null,
 
+	@field:SerializedName("songName")
+	val songName: String
+
+):Parcelable
+
+@Parcelize
 data class Ratings(
 
 	@field:SerializedName("dislikes")
@@ -30,8 +39,9 @@ data class Ratings(
 
 	@field:SerializedName("likes")
 	val likes: Int? = null
-)
+):Parcelable
 
+@Parcelize
 data class Thumbnail(
 
 	@field:SerializedName("width")
@@ -45,8 +55,9 @@ data class Thumbnail(
 
 	@field:SerializedName("height")
 	val height: Int? = null
-)
+):Parcelable
 
+@Parcelize
 data class VideosItem(
 
 	@field:SerializedName("shorts_url")
@@ -61,11 +72,9 @@ data class VideosItem(
 	@field:SerializedName("nsfw")
 	val nsfw: Boolean? = null,
 
-	@field:SerializedName("channel")
-	val channel: Channel? = null,
 
 	@field:SerializedName("description")
-	val description: Any? = null,
+	val description: String? = null,
 
 	@field:SerializedName("duration_formatted")
 	val durationFormatted: String? = null,
@@ -78,9 +87,6 @@ data class VideosItem(
 
 	@field:SerializedName("url")
 	val url: String? = null,
-
-	@field:SerializedName("tags")
-	val tags: List<Any?>? = null,
 
 	@field:SerializedName("duration")
 	val duration: Int? = null,
@@ -105,16 +111,5 @@ data class VideosItem(
 
 	@field:SerializedName("live")
 	val live: Boolean? = null
-)
+):Parcelable
 
-data class Channel(
-
-	@field:SerializedName("name")
-	val name: String? = null,
-
-	@field:SerializedName("icon")
-	val icon: String? = null,
-
-	@field:SerializedName("id")
-	val id: String? = null
-)

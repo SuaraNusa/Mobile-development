@@ -34,25 +34,29 @@ class HomeViewModel(private val repository: PredictRepository, private val conte
     private val _responsePredict = MutableLiveData<ResponsePredict>()
     val responsePredict: LiveData<ResponsePredict> get() = _responsePredict
 
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> get() = _isLoading
+
     private val _text = MutableLiveData<String>().apply {
         value = "This is home Fragment"
     }
     val text: LiveData<String> = _text
 
     fun fetchInstrument(file: MultipartBody.Part){
+        _isLoading.value = true
         viewModelScope.launch {
             try {
               val response = repository.predict(file)
-                val fiveVideos = response.data?.videos?.take(5)
-                val newVideos = response.copy(data = response.data?.copy(videos = fiveVideos))
-                _responsePredict.value = newVideos
-                Log.d("PRED", "fetchInstrument: ${_responsePredict.value}")
 
+
+                _responsePredict.value = response
+                Log.d("PRED", "fetchInstrument: ${_responsePredict.value}")
+                _isLoading.value = false
             }catch (e: Exception){
                 _responsePredict.value = ResponsePredict(null, e.message, "error")
                 _isError.value = "error"
                 Log.d("PRED", "fetchInstrument: ${_responsePredict.value}")
-
+                _isLoading.value = false
             }
         }
     }
