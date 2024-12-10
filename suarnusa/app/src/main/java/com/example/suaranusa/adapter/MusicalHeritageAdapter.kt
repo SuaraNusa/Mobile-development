@@ -50,14 +50,14 @@ class MusicalHeritageAdapter(private var musicalList: List<MusicalItem>,context:
         fun bind(item: MusicalItem) {
             binding.textViewInstrumentName.text = item.name
             Log.d("MusicalHeritageAdapter", "Item Image: ${item.imageResId}")
-            val imgUrl = "${BuildConfig.API_BASE_URL}/instruments/${item.imageResId}"
+            val imgUrl = "https://storage.googleapis.com/suara-nusa-dev-labs/image-resources/${item.imageResId}"
             Log.d("MusicalHeritageAdapter", "bind: $imgUrl")
 
             val glideUrl = GlideUrl(
                 imgUrl,
-                LazyHeaders.Builder()
-                    .addHeader("Authorization", "Bearer ${sm.getToken()}")
-                    .build()
+//                LazyHeaders.Builder()
+//                    .addHeader("Authorization", "Bearer ${sm.getToken()}")
+//                    .build()
             )
 
             Glide.with(binding.imageViewInstrument.context)

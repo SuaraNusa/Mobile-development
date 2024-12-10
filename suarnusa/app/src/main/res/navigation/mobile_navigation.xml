@@ -5,11 +5,19 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/navigation_home">
 
+
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.example.suaranusa.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_result_fragment"
+            app:destination="@id/result_fragment"
+            app:popUpTo="@id/navigation_home"
+            app:popUpToInclusive="true"/>
+
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_history"
@@ -28,5 +36,16 @@
         android:name="com.example.suaranusa.ui.profile.BlankFragment"
         android:label="@string/profile"
         tools:layout="@layout/fragment_blank" />
+
+    <fragment
+        android:id="@+id/result_fragment"
+        android:name="com.example.suaranusa.ui.home.result.ResultFragment"
+        android:label="Result"
+        >
+        <argument
+            android:name="responsePredict"
+            app:argType="com.example.suaranusa.response.predict.ResponsePredict"
+            />
+    </fragment>
 
 </navigation>
