@@ -7,7 +7,7 @@ import com.example.suaranusa.response.profile.ResponseProfile
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 
-class BlankViewModel(private val repository: ProfileRepository) : ViewModel() {
+class EditProfileViewModel(private val repository: ProfileRepository) : ViewModel() {
 
     private val _responseProfile = MutableLiveData<ResponseProfile>()
     val responseProfile: LiveData<ResponseProfile> get() = _responseProfile
