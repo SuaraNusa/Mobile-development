@@ -132,7 +132,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun requestStoragePermission() {
-       if(SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+       if(SDK_INT >= Build.VERSION_CODES.HONEYCOMB){
 
             if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_MEDIA_AUDIO)
                 != PackageManager.PERMISSION_GRANTED) {
