@@ -1,5 +1,6 @@
 package com.example.suaranusa.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,9 +41,11 @@ class FavoriteAdapter(private val repository: HistoryRepository) : ListAdapter<H
         private val favoriteButton: ImageButton = itemView.findViewById(R.id.favoriteButtonFavorite)
         private var isFavorite: Boolean = false
 
+        @SuppressLint("SetTextI18n", "DefaultLocale")
         fun bind(favorite: HistoryItem) {
             nameTextView.text = favorite.predictLabel
-            probabilityTextView.text = favorite.predictProb
+            val probabilityPercentage = String.format("%.2f%%", favorite.predictProb.toDouble() * 100)
+            probabilityTextView.text = "Prob: $probabilityPercentage"
             dateTextView.text = favorite.createdAt
             isFavorite = favorite.isFavorite
 
