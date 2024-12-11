@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
@@ -12,6 +13,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.suaranusa.R
 import com.example.suaranusa.model.HistoryItem
 import com.example.suaranusa.repository.HistoryRepository
+import com.example.suaranusa.response.predict.ResponsePredict
+import com.example.suaranusa.ui.modal.DetailDialogFragment
+import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -39,6 +43,7 @@ class FavoriteAdapter(private val repository: HistoryRepository) : ListAdapter<H
         private val probabilityTextView: TextView = itemView.findViewById(R.id.textViewProbabilityFavorite)
         private val dateTextView: TextView = itemView.findViewById(R.id.textViewTimeDate)
         private val favoriteButton: ImageButton = itemView.findViewById(R.id.favoriteButtonFavorite)
+        private val detailbutton: Button = itemView.findViewById(R.id.detailButtonFavorite)
         private var isFavorite: Boolean = false
 
         @SuppressLint("SetTextI18n", "DefaultLocale")
@@ -58,6 +63,14 @@ class FavoriteAdapter(private val repository: HistoryRepository) : ListAdapter<H
                 if (!isFavorite) {
                     adapter.removeItem(bindingAdapterPosition)
                 }
+            }
+
+            val gson = Gson()
+            val responsePredict = gson.fromJson(favorite.data, ResponsePredict::class.java)
+
+            detailbutton.setOnClickListener {
+                val dialog = DetailDialogFragment.newInstance(responsePredict)
+                dialog.show((itemView.context as androidx.fragment.app.FragmentActivity).supportFragmentManager, "DetailDialogFragment")
             }
         }
 
