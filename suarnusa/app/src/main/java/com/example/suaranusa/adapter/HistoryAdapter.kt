@@ -5,11 +5,15 @@ import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.suaranusa.R
 import com.example.suaranusa.databinding.ItemHistoryBinding
 import com.example.suaranusa.model.HistoryItem
 import com.example.suaranusa.repository.HistoryRepository
+import com.example.suaranusa.response.predict.ResponsePredict
+import com.example.suaranusa.ui.modal.DetailDialogFragment
+import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -68,6 +72,14 @@ class HistoryAdapter(private var historyList: List<HistoryItem>, context: Contex
                 )
 
                 item.isFavorite = newFavorite
+            }
+
+            val gson = Gson()
+            val responsePredict = gson.fromJson(item.data, ResponsePredict::class.java)
+
+            binding.detailButton.setOnClickListener {
+                val dialog = DetailDialogFragment.newInstance(responsePredict)
+                dialog.show((binding.root.context as AppCompatActivity).supportFragmentManager, "DetailDialogFragment")
             }
         }
     }
