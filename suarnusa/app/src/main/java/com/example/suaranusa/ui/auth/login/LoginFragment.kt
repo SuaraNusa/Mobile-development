@@ -10,9 +10,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.suaranusa.R
+import com.example.suaranusa.ui.auth.forgetpassword.ForgetPasswordActivity
 import com.example.suaranusa.ui.main.MainActivity
 import com.example.suaranusa.utils.SessionManager
 
@@ -22,6 +24,7 @@ class LoginFragment : Fragment(), View.OnClickListener {
     private lateinit var emailInput : EditText
     private lateinit var passwordInput : EditText
     private lateinit var progressBar: ProgressBar
+    private lateinit var forgotpassword: TextView
     private lateinit var  sm :SessionManager
 
 
@@ -36,6 +39,7 @@ class LoginFragment : Fragment(), View.OnClickListener {
 
         emailInput = view.findViewById(R.id.email_input)
         passwordInput = view.findViewById(R.id.password_input)
+        forgotpassword = view.findViewById(R.id.forgot_password)
 
         viewModel.isLoading.observe(viewLifecycleOwner){isLoading ->
             if(isLoading) {
@@ -49,6 +53,11 @@ class LoginFragment : Fragment(), View.OnClickListener {
             }
         }
 
+        forgotpassword.setOnClickListener{
+            val intent = Intent(activity, ForgetPasswordActivity::class.java)
+            startActivity(intent)
+        }
+
         login_button.setOnClickListener(this)
         return view
     }
@@ -58,10 +67,6 @@ class LoginFragment : Fragment(), View.OnClickListener {
             R.id.login_button -> {
                 Log.d("Login", "onClick: Login")
                 login()
-
-                //Intent to Activity
-//                startActivity(Intent(activity, MainActivity::class.java))
-//                activity?.finish()
             }
         }
     }
@@ -72,7 +77,6 @@ class LoginFragment : Fragment(), View.OnClickListener {
         viewModel.loginUser(email, password).observe(this){ reponse ->
             if(reponse.status == "success"){
                 sm.setToken(reponse.data ?: "")
-                showDialog(requireContext(), "Login Success", "Login Success")
                 val intent = Intent(activity, MainActivity::class.java)
                 startActivity(intent)
                 activity?.finish()

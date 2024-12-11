@@ -6,15 +6,21 @@ import com.example.suaranusa.BuildConfig
 import com.example.suaranusa.api.ProfileService
 import com.example.suaranusa.response.profile.ResponseProfile
 import com.example.suaranusa.utils.SessionManager
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.logging.HttpLoggingInterceptor
+import okio.Buffer
 import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.File
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
-class ProfileRepository(context: Context) {
+class ProfileRepository(private val context: Context) {
     private val profileService: ProfileService
     private val sessionManager: SessionManager = SessionManager(context)
     private lateinit var token: String
@@ -23,11 +29,6 @@ class ProfileRepository(context: Context) {
         val logging = HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
 
-//            level = if (BuildConfig.DEBUG) {
-//                HttpLoggingInterceptor.Level.BODY
-//            } else {
-//                HttpLoggingInterceptor.Level.NONE
-//            }
         }
         val client = okhttp3.OkHttpClient.Builder()
             .addInterceptor(logging)
@@ -51,14 +52,20 @@ class ProfileRepository(context: Context) {
         profileService = retrofit.create(ProfileService::class.java)
     }
 
+    fun RequestBody.string():String{
+        val buffer = Buffer()
+        this.writeTo(buffer)
+        return buffer.readUtf8()
+    }
+
+
     suspend fun editProfile(
-        name: String,
-        email: String,
-        password: String,
-        confirmPassword: String,
+        name: RequestBody,
+        email: RequestBody,
+        password: RequestBody,
+        confirmPassword: RequestBody,
         profile: MultipartBody.Part
     ): ResponseProfile {
-        Log.d("ProfileRepository", "${token}")
 
         return try {
             profileService.editProfile(name, email, password, confirmPassword, profile)
@@ -73,4 +80,5 @@ class ProfileRepository(context: Context) {
             ResponseProfile(null, "Unexpected error: ${e.message}", "unexpected_error")
         }
     }
+
 }

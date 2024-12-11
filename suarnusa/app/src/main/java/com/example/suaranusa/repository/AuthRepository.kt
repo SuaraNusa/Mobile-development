@@ -5,11 +5,13 @@ import com.example.suaranusa.BuildConfig
 import com.example.suaranusa.api.AuthService
 import com.example.suaranusa.model.LoginRequest
 import com.example.suaranusa.model.RegisterRequest
+import com.example.suaranusa.model.forgotPasswordRequest
 import com.example.suaranusa.model.vericationQuestion
 import com.example.suaranusa.response.auth.Data
 import com.example.suaranusa.response.auth.ResponseAuthLogin
 import com.example.suaranusa.response.auth.ResponseAuthQuestions
 import com.example.suaranusa.response.auth.ResponseAuthRegister
+import com.example.suaranusa.response.auth.ResponseForgotPassword
 import okhttp3.logging.HttpLoggingInterceptor
 import org.json.JSONObject
 import retrofit2.HttpException
@@ -112,4 +114,21 @@ class AuthRepository() {
             }
         }
     }
+
+    suspend fun resetPassword(
+        email: String,
+        password: String,
+        confirmPassword: String
+    ):ResponseForgotPassword{
+        return try {
+            val request = forgotPasswordRequest(email, password, confirmPassword)
+            val response = authService.resetPassword(request)
+            Log.d("REP", "resetPassword: $response")
+            response
+        }catch (e: Exception){
+            Log.d("REP", "resetPassword: ${e.message}")
+            ResponseForgotPassword(null, false, "")
+        }
+    }
+
 }
