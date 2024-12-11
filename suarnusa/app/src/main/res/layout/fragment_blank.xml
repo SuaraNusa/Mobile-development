@@ -20,7 +20,6 @@
         android:focusable="true"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
-        android:padding="8dp"
         android:src="@drawable/suaranusa"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
