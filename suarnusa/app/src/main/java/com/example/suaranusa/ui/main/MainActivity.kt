@@ -3,12 +3,16 @@ package com.example.suaranusa.ui.main
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Log
+import android.view.KeyEvent
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
@@ -16,7 +20,8 @@ import com.example.suaranusa.R
 import com.example.suaranusa.SlidePageMenu
 import com.example.suaranusa.databinding.ActivityMainBinding
 import com.example.suaranusa.ui.auth.AuthTabActivity
-import com.example.suaranusa.ui.profile.BlankFragment
+import com.example.suaranusa.ui.home.HomeFragment
+import com.example.suaranusa.ui.home.result.ResultFragment
 import com.example.suaranusa.utils.SessionManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -24,13 +29,17 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var sharedPreferences: SharedPreferences
-    private val viewModel: MainViewModel by viewModels{MainViewModelFactory(this)}
+    private lateinit var navView: BottomNavigationView
+    private lateinit var navController: NavController
+
+    private val viewModel: MainViewModel by viewModels { MainViewModelFactory(this) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val sessionManager = SessionManager(this)
         val token = sessionManager.getToken()
 
-        if (token != null){
+        if (token != null) {
             Log.d("Token", token)
         }
 
@@ -53,18 +62,15 @@ class MainActivity : AppCompatActivity() {
         val isIntroShow = sharedPreferences.getBoolean("isIntroShow", false)
         Log.d("Main Intro show", isIntroShow.toString())
 
-
         if (!isIntroShow) {
             startActivity(Intent(this, SlidePageMenu::class.java))
             finish()
             return
         }
 
+        navView = binding.navView
 
-
-        val navView: BottomNavigationView = binding.navView
-
-        val navController = findNavController(R.id.nav_host_fragment_activity_main)
+        navController = findNavController(R.id.nav_host_fragment_activity_main)
         navController.navigate(R.id.navigation_home)
 
         val appBarConfiguration = AppBarConfiguration(
@@ -81,19 +87,29 @@ class MainActivity : AppCompatActivity() {
 
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-    }
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
-        setContentView(R.layout.activity_main)
-
-        if (savedInstanceState == null) {
-            val blankFragment = BlankFragment()
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.container, blankFragment)
-                .commit()
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id == R.id.result_fragment) {
+                navView.visibility = View.GONE
+            } else {
+                navView.visibility = View.VISIBLE
+            }
         }
     }
 
+    private fun getCurrentFragment(): Fragment? {
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as? NavHostFragment
+        return navHostFragment?.childFragmentManager?.primaryNavigationFragment
+    }
 
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            val currentFragment = getCurrentFragment()
+            if (currentFragment is ResultFragment) {
+                navController.navigate(R.id.navigation_home)
+                return true
+            }
+        }
+        return super.onKeyDown(keyCode, event)
+    }
 }
