@@ -12,6 +12,10 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
+<<<<<<< Updated upstream
+=======
+import androidx.navigation.fragment.findNavController
+>>>>>>> Stashed changes
 import com.bumptech.glide.Glide
 import com.example.suaranusa.R
 import com.example.suaranusa.model.HistoryItem
@@ -76,6 +80,7 @@ class ResultFragment : Fragment() {
         val videosContainer = root.findViewById<LinearLayout>(R.id.videos_container)
         val songTitle = root.findViewById<TextView>(R.id.song_title)
         val confident = root.findViewById<TextView>(R.id.confident)
+        val backButton = root.findViewById<ImageView>(R.id.backButton)
 
         songTitle.text = responsePredict?.data?.songName
         confident.text = responsePredict?.data?.score.toString()
@@ -97,6 +102,12 @@ class ResultFragment : Fragment() {
 
             videosContainer.addView(videoCard)
         }
+<<<<<<< Updated upstream
+=======
+        backButton.setOnClickListener {
+            findNavController().navigateUp()
+        }
+>>>>>>> Stashed changes
         return root
     }
 

@@ -157,6 +157,7 @@ class HomeFragment : Fragment() {
                 Log.i("HomeFragment", "Requesting permission storage")
             } else {
                 // Permission already granted
+
                 Log.i("HomeFragment", "Permission Storage already granted")
                 changeBackgroundState()
                 homeViewModel.startRecording()
@@ -166,12 +167,11 @@ class HomeFragment : Fragment() {
 
               if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
-                  //REQUEST PERMISSION EXTERNAL STORAGE
-                    ActivityCompat.requestPermissions(
-                        requireActivity(),
-                        arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                        STORAGE_PERMISSION_REQUEST_CODE
-                    )
+                ActivityCompat.requestPermissions(
+                     requireActivity(),
+                     arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                     STORAGE_PERMISSION_REQUEST_CODE
+                )
                 Log.i("HomeFragment", "Requesting permission storage")
               } else {
                 // Permission already granted
@@ -191,9 +191,16 @@ class HomeFragment : Fragment() {
             != PackageManager.PERMISSION_GRANTED) {
             permissions.add(Manifest.permission.RECORD_AUDIO)
         }
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_MEDIA_AUDIO)
-            != PackageManager.PERMISSION_GRANTED) {
-            permissions.add(Manifest.permission.READ_MEDIA_AUDIO)
+        if (SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_MEDIA_AUDIO)
+                != PackageManager.PERMISSION_GRANTED) {
+                permissions.add(Manifest.permission.READ_MEDIA_AUDIO)
+            }
+        } else {
+            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+                permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE)
+            }
         }
         if (permissions.isNotEmpty()) {
             ActivityCompat.requestPermissions(
