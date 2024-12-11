@@ -25,4 +25,6 @@
     <string name="song_title_s">Song Title: $s</string>
     <string name="confident_s">Confident: $s</string>
     <string name="youtube_title">youtube title</string>
+    <string name="back_button">Back Button</string>
+    <string name="your_favorites">Your Favorites</string>
 </resources>

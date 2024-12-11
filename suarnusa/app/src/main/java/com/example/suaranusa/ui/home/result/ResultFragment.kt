@@ -12,10 +12,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
-<<<<<<< Updated upstream
-=======
 import androidx.navigation.fragment.findNavController
->>>>>>> Stashed changes
 import com.bumptech.glide.Glide
 import com.example.suaranusa.R
 import com.example.suaranusa.model.HistoryItem
@@ -102,12 +99,10 @@ class ResultFragment : Fragment() {
 
             videosContainer.addView(videoCard)
         }
-<<<<<<< Updated upstream
-=======
+
         backButton.setOnClickListener {
             findNavController().navigateUp()
         }
->>>>>>> Stashed changes
         return root
     }
 

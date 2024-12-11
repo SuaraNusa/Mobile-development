@@ -40,23 +40,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/confident_s"
-<<<<<<< Updated upstream
-                />
-=======
                 android:textAlignment="center" />
 
->>>>>>> Stashed changes
             <ImageButton
                 android:id="@+id/favorite_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
-<<<<<<< Updated upstream
-                android:src="@drawable/favoritefalse"
-                />
-=======
                 android:src="@drawable/favoritefalse" />
->>>>>>> Stashed changes
 
             <LinearLayout
                 android:id="@+id/videos_container"
