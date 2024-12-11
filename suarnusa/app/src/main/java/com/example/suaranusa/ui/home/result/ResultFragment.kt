@@ -21,6 +21,7 @@ import com.example.suaranusa.repository.HistoryRepository
 import com.example.suaranusa.response.predict.ResponsePredict
 import com.example.suaranusa.utils.SessionManager
 import com.example.suaranusa.utils.jwtDecoder
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import java.security.MessageDigest
@@ -44,6 +45,9 @@ class ResultFragment : Fragment() {
         initializeDependencies()
         handleResponsePredict(responsePredict)
         setupUI(root, responsePredict, inflater)
+
+        val navView = activity?.findViewById<BottomNavigationView>(R.id.nav_view)
+        navView?.visibility = View.GONE
 
         return root
     }
