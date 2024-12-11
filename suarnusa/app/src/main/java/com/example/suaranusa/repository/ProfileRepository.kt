@@ -1,6 +1,7 @@
 package com.example.suaranusa.repository
 
 import android.content.Context
+import android.util.Log
 import com.example.suaranusa.BuildConfig
 import com.example.suaranusa.api.ProfileService
 import com.example.suaranusa.response.profile.ResponseProfile
@@ -16,15 +17,17 @@ import java.util.concurrent.TimeUnit
 class ProfileRepository(context: Context) {
     private val profileService: ProfileService
     private val sessionManager: SessionManager = SessionManager(context)
-
+    private lateinit var token: String
     init {
-        val token = sessionManager.getToken() ?: ""
+        token = sessionManager.getToken()?.trim()?: ""
         val logging = HttpLoggingInterceptor().apply {
-            level = if (BuildConfig.DEBUG) {
-                HttpLoggingInterceptor.Level.BODY
-            } else {
-                HttpLoggingInterceptor.Level.NONE
-            }
+            level = HttpLoggingInterceptor.Level.BODY
+
+//            level = if (BuildConfig.DEBUG) {
+//                HttpLoggingInterceptor.Level.BODY
+//            } else {
+//                HttpLoggingInterceptor.Level.NONE
+//            }
         }
         val client = okhttp3.OkHttpClient.Builder()
             .addInterceptor(logging)
@@ -55,6 +58,8 @@ class ProfileRepository(context: Context) {
         confirmPassword: String,
         profile: MultipartBody.Part
     ): ResponseProfile {
+        Log.d("ProfileRepository", "${token}")
+
         return try {
             profileService.editProfile(name, email, password, confirmPassword, profile)
         } catch (e: HttpException) {

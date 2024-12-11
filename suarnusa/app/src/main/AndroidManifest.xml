@@ -31,7 +31,7 @@
             android:name=".ui.profile.ProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.profile.EditProfilee"
+            android:name=".ui.profile.EditProfile"
             android:exported="false" />
         <activity
             android:name=".ui.auth.AuthTabActivity"

@@ -9,9 +9,6 @@ import okhttp3.MultipartBody
 
 class EditProfileViewModel(private val repository: ProfileRepository) : ViewModel() {
 
-    private val _responseProfile = MutableLiveData<ResponseProfile>()
-    val responseProfile: LiveData<ResponseProfile> get() = _responseProfile
-
     /**
      * Update user profile.
      */
@@ -21,7 +18,9 @@ class EditProfileViewModel(private val repository: ProfileRepository) : ViewMode
         password: String,
         confirmPassword: String,
         profile: MultipartBody.Part
-    ) {
+    ):LiveData<ResponseProfile> {
+        val _responseProfile: MutableLiveData<ResponseProfile> = MutableLiveData()
+        _responseProfile.value = ResponseProfile(null, "Loading", "loading")
         viewModelScope.launch {
             try {
                 val response = repository.editProfile(name, email, password, confirmPassword, profile)
@@ -34,5 +33,6 @@ class EditProfileViewModel(private val repository: ProfileRepository) : ViewMode
                 )
             }
         }
+        return _responseProfile
     }
 }
