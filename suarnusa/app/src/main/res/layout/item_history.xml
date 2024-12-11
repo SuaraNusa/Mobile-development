@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -36,11 +37,36 @@
         android:textColor="@android:color/holo_green_dark"
         android:textStyle="bold"
         android:layout_marginBottom="4dp" />
-    <ImageButton
-        android:id="@+id/favoriteButton"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:background="@null"
-        android:src="@drawable/favoritefalse"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Favorite Button -->
+
+        <!-- Space to push the detail button to the right -->
+        <ImageButton
+            android:id="@+id/favoriteButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:background="@null"
+            android:src="@drawable/favoritefalse" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <!-- Detail Button -->
+        <Button
+            android:id="@+id/detailButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Detail"
+            android:background="@null"
+            android:textColor="@android:color/white"
+            tools:ignore="HardcodedText" />
+    </LinearLayout>
 </LinearLayout>

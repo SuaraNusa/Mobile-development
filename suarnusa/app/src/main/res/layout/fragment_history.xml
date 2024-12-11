@@ -23,12 +23,15 @@
         android:layout_height="wrap_content"
         android:text="@string/title_history"
         android:textSize="24sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_marginBottom="5dp"
+        />
 
     <!-- RecyclerView untuk menampilkan daftar item -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewHistory"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="45dp"
         android:scrollbars="vertical" />
 </LinearLayout>

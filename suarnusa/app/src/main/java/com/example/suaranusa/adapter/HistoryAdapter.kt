@@ -45,7 +45,7 @@ class HistoryAdapter(private var historyList: List<HistoryItem>, context: Contex
    inner class HistoryViewHolder(private val binding: ItemHistoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        @SuppressLint("SetTextI18n")
+        @SuppressLint("SetTextI18n", "DefaultLocale")
         fun bind(item: HistoryItem) {
             val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
             val outputFormat = SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm", Locale.getDefault())
@@ -54,17 +54,21 @@ class HistoryAdapter(private var historyList: List<HistoryItem>, context: Contex
 
             binding.textViewTimeDate.text = formattedDate
             binding.textViewTitle.text = item.predictLabel
-            binding.textViewProbability.text = item.predictProb
+
+            val probabilityPercentage = String.format("%.2f%%", item.predictProb.toDouble() * 100)
+            binding.textViewProbability.text = "Prob: $probabilityPercentage"
+
             binding.favoriteButton.setImageResource(if(item.isFavorite)R.drawable.favoritetrue else R.drawable.favoritefalse)
             binding.favoriteButton.setOnClickListener {
-                var newFavorite = !item.isFavorite
+                val newFavorite = !item.isFavorite
                 Log.d("Favorite", newFavorite.toString())
                 updateIsFavorite(item.id, newFavorite)
                 binding.favoriteButton.setImageResource(
                    if(newFavorite) R.drawable.favoritetrue else R.drawable.favoritefalse
                 )
-            }
 
+                item.isFavorite = newFavorite
+            }
         }
     }
 

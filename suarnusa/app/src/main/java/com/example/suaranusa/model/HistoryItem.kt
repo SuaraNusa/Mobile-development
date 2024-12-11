@@ -11,6 +11,6 @@ data class HistoryItem(
     val predictLabel: String,
     val predictProb: String,
     val createdAt: String,
-    val isFavorite: Boolean = false,
+    var isFavorite: Boolean = false,
     val data: String
 )
