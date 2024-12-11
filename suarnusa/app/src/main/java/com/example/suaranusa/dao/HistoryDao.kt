@@ -16,4 +16,7 @@ interface HistoryDao {
 
     @Query("UPDATE history_search SET isFavorite = :isFavorite WHERE id = :id")
     suspend fun isFavorite(id: Int, isFavorite: Boolean)
+
+    @Query("SELECT * FROM history_search WHERE isFavorite = 1 AND userId = :userId")
+    fun getFavorite(userId: Int): LiveData<List<HistoryItem>>
 }

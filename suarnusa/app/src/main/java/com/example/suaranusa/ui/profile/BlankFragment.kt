@@ -34,8 +34,14 @@ class BlankFragment : Fragment() {
         }
 
         favoriteSection.setOnClickListener {
-            val intent = Intent(requireContext(), FavActivity::class.java)
-            startActivity(intent)
+            val userId = sm.getUserId()
+            if (userId != null) {
+                val intent = Intent(requireContext(), FavActivity::class.java)
+                intent.putExtra("USER_ID", userId)
+                startActivity(intent)
+            } else {
+                Toast.makeText(context, "User ID not found", Toast.LENGTH_SHORT).show()
+            }
         }
 
         logoutButton.setOnClickListener {

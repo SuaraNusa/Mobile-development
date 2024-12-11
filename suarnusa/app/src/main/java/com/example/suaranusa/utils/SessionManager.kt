@@ -27,6 +27,16 @@ class SessionManager(context:Context) {
     }
     fun getToken():String? = pref.getString(TOKEN, null)
 
+    fun getUserId(): Int? {
+        val token = getToken() ?: return null
+
+        val decode = jwtDecoder.decode(token)
+        val claims = decode.claims
+        val id = claims["id"].toString()
+
+        return id.toInt()
+    }
+
     fun clearSession(){
         pref.edit().clear().apply()
     }
