@@ -63,8 +63,9 @@ class HistoryAdapter(private var historyList: List<HistoryItem>, context: Contex
                 binding.favoriteButton.setImageResource(
                    if(newFavorite) R.drawable.favoritetrue else R.drawable.favoritefalse
                 )
-            }
 
+                item.isFavorite = newFavorite
+            }
         }
     }
 
