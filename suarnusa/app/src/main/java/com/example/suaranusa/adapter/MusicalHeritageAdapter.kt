@@ -1,6 +1,7 @@
 package com.example.suaranusa.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,18 +11,15 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.model.GlideUrl
-import com.bumptech.glide.load.model.LazyHeaders
 import com.bumptech.glide.request.target.Target
-import com.example.suaranusa.BuildConfig
 import com.example.suaranusa.databinding.ItemMusicalHeritageBinding
-import com.example.suaranusa.utils.SessionManager
+import com.example.suaranusa.ui.list.detail.MusicalHeritageDetail
 
-data class MusicalItem(val name: String, val imageResId: String)
+data class MusicalItem(val id: String, val name: String, val imageResId: String)
 
-class MusicalHeritageAdapter(private var musicalList: List<MusicalItem>,context: Context ) :
+class MusicalHeritageAdapter(private var musicalList: List<MusicalItem>, private val context: Context ) :
     RecyclerView.Adapter<MusicalHeritageAdapter.MusicalViewHolder>() {
 
-    private val sm = SessionManager(context)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MusicalViewHolder {
         val binding = ItemMusicalHeritageBinding.inflate(
@@ -29,7 +27,7 @@ class MusicalHeritageAdapter(private var musicalList: List<MusicalItem>,context:
             parent,
             false
         )
-        return MusicalViewHolder(binding, sm)
+        return MusicalViewHolder(binding,context)
     }
 
     override fun onBindViewHolder(holder: MusicalViewHolder, position: Int) {
@@ -44,7 +42,7 @@ class MusicalHeritageAdapter(private var musicalList: List<MusicalItem>,context:
         notifyDataSetChanged()
     }
 
-    class MusicalViewHolder(private val binding: ItemMusicalHeritageBinding, val sm:SessionManager) :
+    class MusicalViewHolder(private val binding: ItemMusicalHeritageBinding, private val context: Context) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: MusicalItem) {
@@ -55,9 +53,6 @@ class MusicalHeritageAdapter(private var musicalList: List<MusicalItem>,context:
 
             val glideUrl = GlideUrl(
                 imgUrl,
-//                LazyHeaders.Builder()
-//                    .addHeader("Authorization", "Bearer ${sm.getToken()}")
-//                    .build()
             )
 
             Glide.with(binding.imageViewInstrument.context)
@@ -84,6 +79,14 @@ class MusicalHeritageAdapter(private var musicalList: List<MusicalItem>,context:
                     }
                 })
                 .into(binding.imageViewInstrument)
+
+            binding.root.setOnClickListener{
+                Log.d("MusicalHeritageAdapter", "Item Clicked: ${item.id}")
+                val intent = Intent(context, MusicalHeritageDetail::class.java).apply {
+                    putExtra("instrumentId", item.id)
+                }
+                context.startActivity(intent)
+            }
         }
     }
 }

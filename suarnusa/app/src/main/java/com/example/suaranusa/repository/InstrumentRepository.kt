@@ -59,6 +59,17 @@ class InstrumentRepository(context:Context) {
             }
         }
     }
-
+    suspend fun getInstrumentById(id: String) :ResponseInstruments{
+        return try {
+            val response = instrumentsService.getInstrumentById(id)
+            ResponseInstruments(response.data, response.errors, response.status)
+        }catch (e: HttpException){
+            if(e.code() == 400){
+                ResponseInstruments(null, e.message(), e.code().toString())
+            }else{
+                ResponseInstruments(null, e.message(), e.code().toString())
+            }
+        }
+    }
 
 }
