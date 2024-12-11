@@ -9,7 +9,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.suaranusa.dao.HistoryDao
 import com.example.suaranusa.model.HistoryItem
 
-@Database(entities = [HistoryItem::class], version = 2)
+@Database(entities = [HistoryItem::class], version = 3)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun historyDao(): HistoryDao
 

@@ -1,44 +1,34 @@
 package com.example.suaranusa.utils
 
-import android.os.AsyncTask
+import android.content.Context
 import okhttp3.OkHttpClient
-import okhttp3.Request
-import okio.Okio
-import okio.buffer
-import okio.sink
 import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
 
-class DownloadImageTask(
-    private val onDownloadComplete: (Boolean) -> Unit
-) : AsyncTask<String, Void, Boolean>() {
 
-    override fun doInBackground(vararg params: String?): Boolean {
-        val url = params[0] ?: return false
-        val outputFile = File(params[1] ?: return false)
-        return downloadImage(url, outputFile)
-    }
-
-
-    override fun onPostExecute(result: Boolean) {
-        onDownloadComplete(result)
-    }
-}
-
-fun downloadImage(url: String, outputFile: File): Boolean {
+fun downloadFileToData(context:Context,username:String):File?{
+    val url = "https://ui-avatars.com/api/?name=$username.jpg"
     val client = OkHttpClient()
-    val request = Request.Builder().url(url).build()
+    val request = okhttp3.Request.Builder().url(url).build()
 
     return try {
         val response = client.newCall(request).execute()
-        if (!response.isSuccessful) throw IOException("Failed to download file: $response")
+        if (!response.isSuccessful) throw IOException("Unexpected code $response")
 
-        val sink = outputFile.sink().buffer()
-        sink.writeAll(response.body!!.source())
-        sink.close()
-        true
-    } catch (e: IOException) {
+        val inputStream = response.body?.byteStream()
+        val dataFile = File(context.filesDir, "profile.jpg")
+        val outputStream = FileOutputStream(dataFile)
+
+        inputStream?.use { input ->
+            outputStream.use { output ->
+                input.copyTo(output)
+            }
+        }
+
+        dataFile
+    }catch (e:Exception){
         e.printStackTrace()
-        false
+        null
     }
 }

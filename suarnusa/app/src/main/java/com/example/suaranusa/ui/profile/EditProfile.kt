@@ -1,26 +1,26 @@
 package com.example.suaranusa.ui.profile
 
 import EditProfileViewModel
-import android.app.Activity
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.suaranusa.R
 import com.example.suaranusa.repository.ProfileRepository
-import com.example.suaranusa.utils.DownloadImageTask
-import com.example.suaranusa.utils.downloadImage
+import com.example.suaranusa.utils.SessionManager
+import com.example.suaranusa.utils.downloadFileToData
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 
 class EditProfile : AppCompatActivity() {
@@ -32,9 +32,8 @@ class EditProfile : AppCompatActivity() {
     private lateinit var backButton: ImageView
     private lateinit var editPassword: EditText
     private lateinit var editConfirmPassword: EditText
+    private lateinit var sm: SessionManager
 
-    private val pickImageRequestCode = 1001
-    private var selectedImageUri: Uri? = null
 
 
     private lateinit var viewModel: EditProfileViewModel
@@ -43,7 +42,7 @@ class EditProfile : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
         setContentView(R.layout.activity_edit_profile)
-        
+        sm = SessionManager(this)
         profileImageView = findViewById(R.id.profileImageView)
 
         editName = findViewById(R.id.editName)
@@ -53,29 +52,28 @@ class EditProfile : AppCompatActivity() {
         saveButton = findViewById(R.id.saveButton)
         backButton = findViewById(R.id.backButton)
 
-        val profileUrl = intent.getStringExtra(IMAGE_PROFILE)
+        val repository = ProfileRepository(this)
+        val username = intent.getStringExtra(NAME)
+        val profileUrl = "https://ui-avatars.com/api/?name=$username.jpg"
+      CoroutineScope(Dispatchers.IO).launch {
+          val outputFile = downloadFileToData(this@EditProfile, profileUrl)
+          if (outputFile != null) {
+              Log.d("EditProfile", "Profile file downloaded to: ${outputFile.absolutePath}")
+          } else {
+              Log.d("EditProfile", "Profile file download failed")
+          }
+      }
 
-        val outputFile = File(cacheDir, "profile.jpg")
-        DownloadImageTask{success ->
-            if(!success){
-                Toast.makeText(this, "Failed to get Image", Toast.LENGTH_SHORT).show()
-            }else{
-                Toast.makeText(this, "Image downloaded", Toast.LENGTH_SHORT).show()
-            }
-        }.execute(profileUrl, outputFile.absolutePath)
         Glide.with(this)
             .load(profileUrl)
             .into(profileImageView)
-
-
-
 
         backButton.setOnClickListener {
             finish()
         }
 
 
-        val repository = ProfileRepository(this)
+
         viewModel = ViewModelProvider(this, EditProfileViewModelFactory(repository)).get(EditProfileViewModel::class.java)
 
         saveButton.setOnClickListener {
@@ -84,20 +82,44 @@ class EditProfile : AppCompatActivity() {
             val password = editPassword.text.toString()
             val confirmPassword = editConfirmPassword.text.toString()
 
+
+            val cacheDir = this.cacheDir
+            val filePath = File(cacheDir, "profile.jpg")
+            if (filePath.exists()) {
+                Log.d("ProfileRepository", "Profile file path: ${filePath.absolutePath}")
+            } else {
+                Log.d("ProfileRepository", "Profile file does not exist at path: ${filePath.absolutePath}")
+            }
+
+
             if (name.isEmpty() || email.isEmpty()|| password.isEmpty()|| confirmPassword.isEmpty()) {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
-            } else {
-                val file = File(cacheDir, "profile.jpg")
-                val requestFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
-                val profilePart = MultipartBody.Part.createFormData("profile", file.name, requestFile)
+            }
+            else {
+                val namePart = name.toRequestBody("text/plain".toMediaTypeOrNull())
+                val emailPart = email.toRequestBody("text/plain".toMediaTypeOrNull())
+                val passwordPart = password.toRequestBody("text/plain".toMediaTypeOrNull())
+                val confirmPasswordPart = confirmPassword.toRequestBody("text/plain".toMediaTypeOrNull())
+
+                val outputFile = File(this.filesDir, "profile.jpg")
+                val requestFile = outputFile.asRequestBody("image/jpeg".toMediaTypeOrNull())
+                val profilePart = MultipartBody.Part.createFormData("profile", outputFile.name, requestFile)
+
+
+
                 viewModel.editProfile(
-                    name = name,
-                    email = email,
-                    password = password,
-                    confirmPassword = confirmPassword,
-                    profile = profilePart).observe(this, {
+                  namePart,
+                    emailPart,
+                    passwordPart,
+                    confirmPasswordPart,
+                    profilePart,
+                    email,
+                    password
+                ).observe(this, {
                     if (it.status == "success") {
                         Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_SHORT).show()
+//                        sm.clearSession()
+
 //                        finish()
                     } else {
                         Toast.makeText(this, "${it.errors}", Toast.LENGTH_SHORT).show()
