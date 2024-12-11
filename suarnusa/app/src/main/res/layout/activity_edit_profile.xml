@@ -30,6 +30,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/backButton" />
 
+<<<<<<< Updated upstream
 <!--    <Button-->
 <!--        android:id="@+id/uploadImageButton"-->
 <!--        android:layout_width="wrap_content"-->
@@ -42,13 +43,17 @@
 <!--        app:layout_constraintStart_toStartOf="parent"-->
 <!--        app:layout_constraintTop_toBottomOf="@id/profileImageView" />-->
 
+=======
+>>>>>>> Stashed changes
     <EditText
         android:id="@+id/editName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="252dp"
+        android:layout_marginTop="168dp"
+        android:background="@drawable/auth_edit_text"
         android:hint="Enter name"
         android:inputType="text"
+        android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -60,12 +65,15 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:hint="Enter email"
+        android:padding="10dp"
+        android:background="@drawable/auth_edit_text"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/editName" />
 
     <EditText
+<<<<<<< Updated upstream
     android:id="@+id/editPassword"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -75,6 +83,19 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@id/editEmail" />
+=======
+        android:id="@+id/editPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="Enter Password"
+        android:inputType="textPassword"
+        android:padding="10dp"
+        android:background="@drawable/auth_edit_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editEmail" />
+>>>>>>> Stashed changes
 
     <EditText
         android:id="@+id/editConfirmPassword"
@@ -83,6 +104,11 @@
         android:layout_marginTop="16dp"
         android:hint="Confirm Password"
         android:inputType="textPassword"
+<<<<<<< Updated upstream
+=======
+        android:padding="10dp"
+        android:background="@drawable/auth_edit_text"
+>>>>>>> Stashed changes
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/editPassword" />
@@ -91,7 +117,7 @@
         android:id="@+id/saveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="40dp"
         android:text="Save"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

@@ -10,4 +10,5 @@
     <color name="active_background_color">#FF0000</color>
     <color name="inactive_background_color">#00FF00</color>
     <color name="abu">#F2F2F2</color>
+    <color name="biru2">#706DB8</color>
 </resources>

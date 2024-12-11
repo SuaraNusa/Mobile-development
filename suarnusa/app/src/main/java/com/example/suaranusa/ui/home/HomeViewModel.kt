@@ -85,7 +85,7 @@ class HomeViewModel(private val repository: PredictRepository, private val conte
     }
 
     private fun stopRecording(){
-        mediaRecorder.stop()
+//        mediaRecorder.stop()
         mediaRecorder.release()
         _isRecording.value = false
 
