@@ -22,7 +22,7 @@ class MusicalHeritageDetail : AppCompatActivity() {
         val imgUrl = "https://storage.googleapis.com/suara-nusa-dev-labs/image-resources/"
         val instrumentId = intent.getStringExtra("instrumentId")?:return
         viewModel.getInstrumentById(instrumentId)
-
+        supportActionBar?.hide()
         viewModel.instrument.observe(this,{response ->
             Log.i("Instrument",response.toString())
             val dataItem = response?.data?.first()
