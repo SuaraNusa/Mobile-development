@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,6 +25,7 @@ class HistoryFragment : Fragment() {
         HistoryViewModelFactory(HistoryRepository(requireContext()), SessionManager(requireContext()))
     }
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,6 +33,7 @@ class HistoryFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_history, container, false)
         recyclerView = view.findViewById(R.id.recyclerViewHistory)
         progressBar = view.findViewById(R.id.progressBar)
+        var emptyTextView = view.findViewById<TextView>(R.id.emptyTextView)
 
         recyclerView.layoutManager = LinearLayoutManager(context)
         historyAdapter = HistoryAdapter(emptyList(), requireContext())
@@ -40,6 +43,7 @@ class HistoryFragment : Fragment() {
         viewModel.fetchHistoryItems()
         viewModel.historyItems.observe(viewLifecycleOwner) { historyItems ->
             historyAdapter.updateItems(historyItems?:emptyList())
+            emptyTextView.visibility = if (historyItems.isNullOrEmpty()) View.VISIBLE else View.GONE
         }
 
         viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
