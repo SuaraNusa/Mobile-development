@@ -1,5 +1,6 @@
 package com.example.suaranusa.ui.home.result
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -31,6 +32,7 @@ class ResultFragment : Fragment() {
     private lateinit var sm:SessionManager
     private lateinit var repository: HistoryRepository
 
+    @SuppressLint("SetTextI18n", "DefaultLocale")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -80,7 +82,11 @@ class ResultFragment : Fragment() {
         val backButton = root.findViewById<ImageView>(R.id.backButton)
 
         songTitle.text = responsePredict?.data?.songName
-        confident.text = responsePredict?.data?.score.toString()
+
+        val probabilityPercentage = String.format("%.2f%%",
+            responsePredict?.data?.score?.toDouble()?.times(100) ?: 0.0
+        )
+        confident.text = "Prob: $probabilityPercentage%"
 
         responsePredict?.data?.videos?.forEach{videos->
             val videoCard = inflater.inflate(R.layout.card_youtube_link, videosContainer, false)
